@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PoliceData ZA — South Africa Crime Statistics Dashboard</title>
+  <meta name="description" content="Public crime statistics dashboard for South Africa. Search police stations, compare provincial crime rates, and track trends from 2019/20 to 2023/24." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    /* ═══════════════════════════════════════════
+       TOKENS & RESET
+    ═══════════════════════════════════════════ */
+    :root {
+      --bg:        #f7f6f2;
+      --bg-card:   #ffffff;
+      --bg-subtle: #f0ede6;
+      --border:    #e2ddd6;
+      --border-strong: #c8c1b7;
+      --text:      #1a1714;
+      --text-2:    #4a4540;
+      --text-3:    #7a7570;
+      --accent:    #1a3a5c;
+      --accent-2:  #2563a8;
+      --gold:      #b8860b;
+      --green:     #1a6b3c;
+      --green-bg:  #e8f5ee;
+      --amber:     #b85c00;
+      --amber-bg:  #fef3e2;
+      --red:       #c0392b;
+      --red-bg:    #fdf0ee;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Instrument Sans', sans-serif;
+      --serif:     'Playfair Display', serif;
+      --radius:    6px;
+      --shadow:    0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.08);
+      --transition: 0.2s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: var(--serif); line-height: 1.25; }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; }
+    button { cursor: pointer; font-family: var(--sans); }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT SHELL
+    ═══════════════════════════════════════════ */
+    .site-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 3px solid var(--gold);
+    }
+    .header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 60px;
+    }
+    .logo-block { display: flex; align-items: center; gap: 12px; }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--gold);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .logo-text { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: #fff; }
+    .logo-text span { color: var(--gold); }
+    .header-badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.8);
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* NAV */
+    .main-nav {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .main-nav::-webkit-scrollbar { display: none; }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0;
+    }
+    .nav-tab {
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-2);
+      border: none;
+      background: transparent;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all var(--transition);
+      letter-spacing: 0.02em;
+    }
+    .nav-tab:hover { color: var(--accent); }
+    .nav-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* PANELS */
+    .panel { display: none; animation: fadeIn 0.3s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ═══════════════════════════════════════════
+       CARDS & GRID
+    ═══════════════════════════════════════════ */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .card-sm { padding: 16px; }
+    .card-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-3);
+      margin-bottom: 4px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr 1fr; }
+      .main-content { padding: 20px 16px 48px; }
+    }
+    @media (max-width: 480px) {
+      .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr; }
+      .nav-tab { padding: 12px 12px; font-size: 0.78rem; }
+    }
+
+    /* KPI CARD */
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+    }
+    .kpi-card.red::before { background: var(--red); }
+    .kpi-card.amber::before { background: var(--amber); }
+    .kpi-card.green::before { background: var(--green); }
+    .kpi-label {
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      margin-bottom: 8px;
+    }
+    .kpi-value {
+      font-family: var(--mono);
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .kpi-change {
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .kpi-change.up { color: var(--red); }
+    .kpi-change.down { color: var(--green); }
+    .kpi-change.flat { color: var(--text-3); }
+
+    /* SECTION HEADER */
+    .section-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+    .section-header h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .section-header p {
+      color: var(--text-2);
+      font-size: 0.9rem;
+      max-width: 640px;
+    }
+
+    /* TABLES */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-3);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+      background: var(--bg-subtle);
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-2);
+    }
+    tr:hover td { background: var(--bg-subtle); }
+    td.num {
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+    }
+    td.rank {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-3);
+      width: 40px;
+    }
+
+    /* BADGES */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-family: var(--mono);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .badge-red    { background: var(--red-bg); color: var(--red); }
+    .badge-amber  { background: var(--amber-bg); color: var(--amber); }
+    .badge-green  { background: var(--green-bg); color: var(--green); }
+    .badge-blue   { background: #e6eef8; color: var(--accent); }
+    .badge-grey   { background: var(--bg-subtle); color: var(--text-3); }
+
+    /* TRAFFIC LIGHT */
+    .tl-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .tl-green  { background: var(--green); }
+    .tl-amber  { background: #e8a020; }
+    .tl-red    { background: var(--red); }
+
+    /* TREND ARROW */
+    .trend-up   { color: var(--red); }
+    .trend-down { color: var(--green); }
+    .trend-flat { color: var(--text-3); }
+
+    /* PROGRESS BAR */
+    .progress-bar-wrap { width: 100%; background: var(--bg-subtle); border-radius: 3px; height: 6px; margin-top: 6px; }
+    .progress-bar { height: 6px; border-radius: 3px; background: var(--accent-2); transition: width 0.6s ease; }
+    .progress-bar.red { background: var(--red); }
+    .progress-bar.amber { background: var(--amber); }
+    .progress-bar.green { background: var(--green); }
+
+    /* SEARCH */
+    .search-wrap { position: relative; max-width: 600px; margin-bottom: 24px; }
+    .search-input {
+      width: 100%;
+      padding: 12px 48px 12px 16px;
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      color: var(--text);
+      transition: border-color var(--transition);
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent-2); }
+    .search-input::placeholder { color: var(--text-3); }
+    .search-icon {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    /* SEARCH STATUS */
+    .search-status {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--text-3);
+      margin-bottom: 12px;
+      min-height: 20px;
+      transition: opacity 0.2s;
+    }
+    .search-status.loading { color: var(--accent-2); }
+
+    /* STATION RESULT */
+    .station-result { display: none; }
+    .station-result.visible { display: block; animation: fadeIn 0.3s ease; }
+    .station-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .station-name { font-size: 1.6rem; font-weight: 700; }
+    .station-meta { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
+
+    /* SCORE GAUGE */
+    .score-gauge {
+      text-align: center;
+      min-width: 100px;
+    }
+    .score-number {
+      font-family: var(--mono);
+      font-size: 2.4rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .score-label { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* CHART CONTAINERS */
+    .chart-wrap { position: relative; width: 100%; }
+    .chart-wrap canvas { max-width: 100%; }
+
+    /* PROVINCE BARS */
+    .prov-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .prov-row:last-child { border-bottom: none; }
+    .prov-name { width: 160px; font-size: 0.88rem; font-weight: 500; flex-shrink: 0; }
+    .prov-bar-wrap { flex: 1; }
+    .prov-value { width: 80px; text-align: right; font-family: var(--mono); font-size: 0.85rem; font-weight: 600; flex-shrink: 0; }
+    .prov-change { width: 60px; text-align: right; font-family: var(--mono); font-size: 0.78rem; flex-shrink: 0; }
+
+    /* CATEGORY PILLS */
+    .cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .cat-pill {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: var(--bg-card);
+      color: var(--text-2);
+      transition: all var(--transition);
+    }
+    .cat-pill:hover { border-color: var(--accent-2); color: var(--accent-2); }
+    .cat-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* FILTER BAR */
+    .filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .filter-select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      background: var(--bg-card);
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-select:focus { border-color: var(--accent-2); }
+
+    /* ABOUT */
+    .about-section { max-width: 760px; }
+    .about-section h3 { font-size: 1.2rem; margin: 24px 0 10px; color: var(--text); }
+    .about-section p { color: var(--text-2); margin-bottom: 12px; line-height: 1.7; }
+    .about-section ul { padding-left: 20px; color: var(--text-2); line-height: 1.9; }
+    .disclaimer-box {
+      background: var(--amber-bg);
+      border: 1px solid #f0c070;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 0.88rem;
+      color: var(--amber);
+    }
+    .disclaimer-box strong { display: block; margin-bottom: 4px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--accent);
+      color: rgba(255,255,255,0.7);
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 0.82rem;
+    }
+    .site-footer a { color: var(--gold); }
+
+    /* SEARCH RESULTS LIST */
+    .search-results {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      max-height: 280px;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      z-index: 50;
+      display: none;
+    }
+    .search-results.open { display: block; }
+    .search-result-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: var(--bg-subtle); }
+    .sri-name { font-weight: 500; font-size: 0.9rem; }
+    .sri-meta { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
+    .sri-score { font-family: var(--mono); font-size: 0.78rem; }
+
+    /* OVERVIEW STAT ROW */
+    .stat-highlight {
+      background: linear-gradient(135deg, var(--accent) 0%, #1e4a7a 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .stat-highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .sh-item-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 6px; }
+    .sh-item-value { font-family: var(--mono); font-size: 2rem; font-weight: 600; line-height: 1; }
+    .sh-item-sub { font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }
+    @media (max-width: 480px) { .stat-highlight-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+    /* MINI SPARKLINE */
+    .sparkline-row { display: flex; align-items: center; gap: 8px; }
+    .sparkline-svg { overflow: visible; }
+
+    /* TOP STATION CARD */
+    .top-station-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .top-station-item:last-child { border-bottom: none; }
+    .tsi-rank { font-family: var(--mono); font-size: 0.8rem; color: var(--text-3); width: 24px; flex-shrink: 0; }
+    .tsi-name { flex: 1; font-weight: 500; font-size: 0.88rem; }
+    .tsi-prov { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
+    .tsi-count { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: var(--text); }
+
+    /* LOADING DOTS */
+    .dots span {
+      animation: blink 1.2s infinite;
+    }
+    .dots span:nth-child(2) { animation-delay: 0.2s; }
+    .dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,100%{opacity:0.2} 50%{opacity:1} }
+
+    /* YEAR SELECTOR */
+    .year-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+    .year-tab {
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg-card);
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .year-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* METHODOLOGY TABLE */
+    .meth-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 12px; }
+    .meth-table th { background: var(--bg-subtle); padding: 8px 12px; text-align: left; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); border-bottom: 2px solid var(--border); }
+    .meth-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+
+    /* SCORE BREAKDOWN */
+    .score-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .sb-item { background: var(--bg-subtle); border-radius: var(--radius); padding: 12px; text-align: center; }
+    .sb-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
+    .sb-value { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; }
+    @media (max-width: 480px) { .score-breakdown { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-block">
+      <div class="logo-icon">🔵</div>
+      <div class="logo-text">PoliceData<span> ZA</span></div>
+    </div>
+    <span class="header-badge">SIMULATED DATA · 2019/20–2023/24</span>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="main-nav">
+  <div class="nav-inner">
+    <button class="nav-tab active" data-panel="overview">Overview</button>
+    <button class="nav-tab" data-panel="lookup">Station Lookup</button>
+    <button class="nav-tab" data-panel="provinces">Provinces</button>
+    <button class="nav-tab" data-panel="categories">Crime Categories</button>
+    <button class="nav-tab" data-panel="trends">Trends</button>
+    <button class="nav-tab" data-panel="about">About &amp; Methodology</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main-content">
+
+  <!-- ══════════════════════════════════
+       OVERVIEW PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-overview" class="panel active">
+    <div class="section-header">
+      <h2>National Crime Overview</h2>
+      <p>South Africa crime statistics — 2023/24 financial year. Anchored to official SAPS published baselines.</p>
+    </div>
+
+    <!-- HERO STATS -->
+    <div class="stat-highlight">
+      <div class="stat-highlight-grid">
+        <div>
+          <div class="sh-item-label">Total Crimes Reported</div>
+          <div class="sh-item-value">2.37M</div>
+          <div class="sh-item-sub">+4.2% vs 2022/23</div>
+        </div>
+        <div>
+          <div class="sh-item-label">National Murder Rate</div>
+          <div class="sh-item-value">45.0</div>
+          <div class="sh-item-sub">per 100,000 population</div>
+        </div>
+        <div>
+          <div class="sh-item-label">Police Stations</div>
+          <div class="sh-item-value">1,154</div>
+          <div class="sh-item-sub">across 9 provinces</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI ROW -->
+    <div class="grid-kpi">
+      <div class="kpi-card red">
+        <div class="kpi-label">Contact Crimes</div>
+        <div class="kpi-value">711K</div>
+        <div class="kpi-change up">▲ 5.1% YoY</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Property Crimes</div>
+        <div class="kpi-value">842K</div>
+        <div class="kpi-change up">▲ 2.8% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Commercial Crimes</div>
+        <div class="kpi-value">118K</div>
+        <div class="kpi-change flat">▼ 0.4% YoY</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Police-Action Crimes</div>
+        <div class="kpi-value">286K</div>
+        <div class="kpi-change down">▼ 3.2% YoY</div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">Crime Category Breakdown — 2023/24</div>
+        <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-donut"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">5-Year National Trend</div>
+        <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-trend"></canvas></div>
+      </div>
+    </div>
+
+    <!-- TOP 10 STATIONS + PROVINCES -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Top 10 Highest-Crime Stations</div>
+        <div id="overview-top-stations"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Provincial Crime Rates (per 100k)</div>
+        <div id="overview-provinces"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       STATION LOOKUP PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-lookup" class="panel">
+    <div class="section-header">
+      <h2>Station Lookup</h2>
+      <p>Search any of South Africa's 1,154 police stations by name or province. View crime totals, 5-year trend, and your Community Safety Score.</p>
+    </div>
+
+    <div class="filter-bar">
+      <select class="filter-select" id="lookup-province-filter" onchange="filterLookup()">
+        <option value="">All Provinces</option>
+        <option value="WC">Western Cape</option>
+        <option value="GP">Gauteng</option>
+        <option value="KZN">KwaZulu-Natal</option>
+        <option value="EC">Eastern Cape</option>
+        <option value="LP">Limpopo</option>
+        <option value="MP">Mpumalanga</option>
+        <option value="NW">North West</option>
+        <option value="FS">Free State</option>
+        <option value="NC">Northern Cape</option>
+      </select>
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="station-search" placeholder="Search station name…" autocomplete="off" oninput="handleSearchInput(this.value)" />
+      <span class="search-icon">🔍</span>
+      <div class="search-results" id="search-dropdown"></div>
+    </div>
+    <div class="search-status" id="search-status">Enter a station name to search 1,154 stations.</div>
+
+    <div class="station-result" id="station-result">
+      <div class="card">
+        <div class="station-header">
+          <div>
+            <div class="card-sub" id="sr-province"></div>
+            <div class="station-name" id="sr-name"></div>
+            <div class="station-meta" id="sr-meta"></div>
+          </div>
+          <div class="score-gauge">
+            <div class="card-sub">Safety Score</div>
+            <div class="score-number" id="sr-score-num"></div>
+            <div class="score-label" id="sr-score-label"></div>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:20px;" id="sr-kpis"></div>
+
+        <div class="grid-2" style="margin-bottom:20px;">
+          <div>
+            <div class="card-title">5-Year Crime Trend</div>
+            <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-trend"></canvas></div>
+          </div>
+          <div>
+            <div class="card-title">Category Mix</div>
+            <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-mix"></canvas></div>
+          </div>
+        </div>
+
+        <div class="card-title">Community Safety Score Breakdown</div>
+        <div class="score-breakdown" id="sr-score-breakdown"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PROVINCES PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-provinces" class="panel">
+    <div class="section-header">
+      <h2>Provincial Overview</h2>
+      <p>All 9 provinces ranked by crime rate per 100,000 population with year-on-year change indicators.</p>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">Crime Rate per 100,000 — All Provinces</div>
+        <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-bar"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Total Reported Crimes by Province</div>
+        <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-abs"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Provincial Statistics Table — 2023/24</div>
+      <div class="table-wrap">
+        <table id="prov-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       CRIME CATEGORIES PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-categories" class="panel">
+    <div class="section-header">
+      <h2>Crime Categories</h2>
+      <p>Breakdown by the 6 SAPS crime classification categories.</p>
+    </div>
+
+    <div class="cat-pills" id="cat-pills"></div>
+    <div id="cat-detail"></div>
+
+    <div class="grid-2" style="margin-top:24px;">
+      <div class="card">
+        <div class="card-title">Category Comparison — 2023/24</div>
+        <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-compare"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">5-Year Category Trends</div>
+        <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-trends"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       TRENDS PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-trends" class="panel">
+    <div class="section-header">
+      <h2>Trend Analysis</h2>
+      <p>Quarterly crime trends 2019/20–2023/24, showing the COVID-19 lockdown impact and recovery.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-title">Quarterly National Crime Volume — All Categories</div>
+      <div class="chart-wrap" style="height:320px;"><canvas id="chart-trends-main"></canvas></div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">Contact Crimes Quarterly Trend</div>
+        <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-contact"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Property Crimes Quarterly Trend</div>
+        <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-property"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Year-on-Year Change Summary</div>
+      <div class="table-wrap">
+        <table id="trends-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       ABOUT PANEL
+  ══════════════════════════════════ -->
+  <section id="panel-about" class="panel">
+    <div class="section-header">
+      <h2>About &amp; Methodology</h2>
+    </div>
+
+    <div class="about-section">
+
+      <div class="disclaimer-box">
+        <strong>⚠ Simulated Data Notice</strong>
+        All data displayed on PoliceData ZA is <strong>simulated</strong> and modelled against official SAPS published statistics. It is not drawn from live SAPS systems. Figures are generated algorithmically using real published baselines to produce realistic, proportional outputs for demonstration and civic technology development purposes. Do not use for legal, policy, or law enforcement decisions.
+      </div>
+
+      <h3>What is PoliceData ZA?</h3>
+      <p>PoliceData ZA is an open civic technology tool designed to make South African crime statistics accessible to ordinary citizens. SAPS publishes quarterly crime data as PDFs and Excel files — formats that are difficult to navigate without specialist knowledge. This dashboard transforms that data into searchable, visual, and comparable formats for use by journalists, community safety forums, ward councillors, neighbourhood watches, and researchers.</p>
+
+      <h3>Data Sources &amp; Anchoring</h3>
+      <p>All simulated data is anchored to the following real published figures from SAPS Annual Crime Reports:</p>
+      <ul>
+        <li>~2.37 million total crimes reported nationally per year (2023/24 baseline)</li>
+        <li>Contact crimes constitute approximately 30% of total reported crime</li>
+        <li>Gauteng, Western Cape and KwaZulu-Natal account for ~58% of all reported crime</li>
+        <li>National murder rate of approximately 45 per 100,000 population</li>
+        <li>Top high-crime stations include Nyanga (WC), Inanda (KZN), Hillbrow (GP) — consistent with official SAPS data</li>
+        <li>COVID-19 lockdown in Q1 2020/21 caused a documented dip reflected in simulated quarterly data</li>
+      </ul>
+
+      <h3>Community Safety Score Methodology</h3>
+      <p>The Community Safety Score (0–100) is a composite indicator generated per station using three weighted components:</p>
+
+      <table class="meth-table">
+        <thead><tr><th>Component</th><th>Weight</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Crime Volume Score</td><td>50%</td><td>Station's total crimes relative to national average for stations of similar cluster size</td></tr>
+          <tr><td>Trend Direction Score</td><td>30%</td><td>5-year directional trajectory — improving scores earn higher points</td></tr>
+          <tr><td>Crime Mix Score</td><td>20%</td><td>Proportion of serious contact crimes (murder, robbery, assault) relative to total</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:12px;">A score of <strong>75–100</strong> indicates a relatively safe station profile (Green). <strong>40–74</strong> indicates moderate concern (Amber). <strong>0–39</strong> indicates elevated risk relative to national peers (Red).</p>
+
+      <h3>Province Population Bases Used</h3>
+      <p>Per-100,000 crime rates are calculated using Stats SA 2023 mid-year population estimates.</p>
+
+      <h3>Limitations</h3>
+      <ul>
+        <li>Reported crime ≠ actual crime; dark figures are substantial in South Africa</li>
+        <li>Station boundaries change over time, making multi-year comparisons imperfect</li>
+        <li>This tool does not reflect unreported crime or SAPS detection rates</li>
+        <li>Commercial crime data may underrepresent corporate reporting patterns</li>
+      </ul>
+
+      <h3>Data Integration Roadmap</h3>
+      <p>Future versions of this tool will integrate directly with SAPS published data via structured extraction from official PDF/Excel releases. If you are a SAPS data officer, journalist, or researcher interested in collaboration, please get in touch via businesshustle.co.za.</p>
+
+      <h3>Open Source</h3>
+      <p>This tool is built by <a href="https://businesshustle.co.za" target="_blank">Business Hustle</a> as part of its civic technology portfolio. All source code is available for community use and adaptation.</p>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>Built by <a href="https://businesshustle.co.za" target="_blank">Business Hustle</a> · Cape Town · ZA &nbsp;|&nbsp; Data is simulated — see <button onclick="switchPanel('about')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">About &amp; Methodology</button></p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA GENERATION ENGINE
+═══════════════════════════════════════════════════════ */
+
+const PROVINCES = [
+  { id:'GP', name:'Gauteng',        pop:15810388, stations:162 },
+  { id:'KZN',name:'KwaZulu-Natal',  pop:12435213, stations:181 },
+  { id:'WC', name:'Western Cape',   pop:7440007,  stations:145 },
+  { id:'EC', name:'Eastern Cape',   pop:6975241,  stations:175 },
+  { id:'LP', name:'Limpopo',        pop:6019267,  stations:89  },
+  { id:'MP', name:'Mpumalanga',     pop:4756887,  stations:79  },
+  { id:'NW', name:'North West',     pop:4122538,  stations:81  },
+  { id:'FS', name:'Free State',     pop:2928912,  stations:115 },
+  { id:'NC', name:'Northern Cape',  pop:1277649,  stations:127 }
+];
+
+// Crime rate per 100k by province — anchored to real published data
+const PROV_RATES_BASE = {
+  GP:3820, KZN:3410, WC:4150, EC:2980, LP:1890, MP:2340, NW:2510, FS:3120, NC:3650
+};
+// YoY change %
+const PROV_YOY = {
+  GP:+3.8, KZN:+4.1, WC:+5.6, EC:+2.1, LP:+1.4, MP:+2.8, NW:+1.9, FS:+3.3, NC:+4.7
+};
+
+const YEARS = ['2019/20','2020/21','2021/22','2022/23','2023/24'];
+const QUARTERS = [];
+for(const y of ['2019/20','2020/21','2021/22','2022/23','2023/24']) {
+  for(const q of ['Q1','Q2','Q3','Q4']) QUARTERS.push(`${y} ${q}`);
+}
+
+const CATEGORIES = [
+  { id:'contact',   name:'Contact Crimes',           abbr:'Contact',   color:'#c0392b', pct:0.300 },
+  { id:'c_related', name:'Contact-Related Crimes',   abbr:'C-Related', color:'#e07020', pct:0.110 },
+  { id:'property',  name:'Property-Related Crimes',  abbr:'Property',  color:'#2563a8', pct:0.355 },
+  { id:'other',     name:'Other Serious Crimes',     abbr:'Other',     color:'#6b4c9e', pct:0.130 },
+  { id:'commercial',name:'Commercial Crimes',        abbr:'Commercial',color:'#1a6b3c', pct:0.050 },
+  { id:'detected',  name:'Detected (Police Action)', abbr:'Detected',  color:'#b8860b', pct:0.055 }
+];
+
+const CAT_SUBCATEGORIES = {
+  contact:   ['Murder','Assault GBH','Common Assault','Attempted Murder','Sexual Offences','Robbery (aggravating)','Robbery (common)'],
+  c_related: ['Arson','Malicious damage','Common robbery','Illegal possession firearms','Carjacking'],
+  property:  ['Burglary (residential)','Burglary (business)','Theft from vehicle','Theft of vehicle','Shoplifting','Other theft'],
+  other:     ['Fraud','Crimen injuria','Intimidation','Trespassing','Public violence','Kidnapping'],
+  commercial:['Corruption','Forgery/Counterfeiting','Computer crime','Money laundering','Securities fraud'],
+  detected:  ['Possession drugs','Liquor Act','Illegal immigration','Public indecency','Other']
+};
+
+const NATIONAL_TOTAL_2324 = 2370000;
+
+// Seed-based PRNG for reproducibility
+function seeded(seed) {
+  let s = seed;
+  return function() {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
+
+// Generate province stats
+function buildProvinceData() {
+  return PROVINCES.map(p => {
+    const rate = PROV_RATES_BASE[p.id];
+    const total = Math.round(rate * p.pop / 100000);
+    const yoy = PROV_YOY[p.id];
+    const prevTotal = Math.round(total / (1 + yoy/100));
+    return { ...p, rate, total, yoy, prevTotal };
+  }).sort((a,b) => b.rate - a.rate);
+}
+
+const PROVINCE_DATA = buildProvinceData();
+
+// Notable real stations (top crime, anchored to SAPS)
+const NOTABLE_STATIONS = [
+  { name:'Nyanga',        province:'WC', notability: 1.0, contact_pct:0.41 },
+  { name:'Inanda',        province:'KZN',notability: 0.97,contact_pct:0.38 },
+  { name:'Hillbrow',      province:'GP', notability: 0.94,contact_pct:0.35 },
+  { name:'Umlazi',        province:'KZN',notability: 0.91,contact_pct:0.37 },
+  { name:'Delft',         province:'WC', notability: 0.88,contact_pct:0.36 },
+  { name:'Khayelitsha',   province:'WC', notability: 0.87,contact_pct:0.39 },
+  { name:'Diepsloot',     province:'GP', notability: 0.85,contact_pct:0.34 },
+  { name:'Soweto',        province:'GP', notability: 0.83,contact_pct:0.32 },
+  { name:'Hartswater',    province:'NC', notability: 0.81,contact_pct:0.30 },
+  { name:'Thohoyandou',   province:'LP', notability: 0.79,contact_pct:0.33 },
+  { name:'Mitchells Plain',province:'WC',notability: 0.77,contact_pct:0.31 },
+  { name:'Umbumbulu',     province:'KZN',notability: 0.75,contact_pct:0.36 },
+  { name:'Tembisa',       province:'GP', notability: 0.73,contact_pct:0.30 },
+  { name:'Alexandra',     province:'GP', notability: 0.71,contact_pct:0.28 },
+  { name:'Lusikisiki',    province:'EC', notability: 0.69,contact_pct:0.34 },
+  { name:'Motherwell',    province:'EC', notability: 0.67,contact_pct:0.30 },
+  { name:'Mthatha',       province:'EC', notability: 0.65,contact_pct:0.28 },
+  { name:'Empangeni',     province:'KZN',notability: 0.63,contact_pct:0.26 },
+  { name:'Pinetown',      province:'KZN',notability: 0.61,contact_pct:0.25 },
+  { name:'Vanderbijlpark',province:'GP', notability: 0.59,contact_pct:0.24 }
+];
+
+// Generate ALL 1154 stations
+function generateStations() {
+  const stations = [];
+  const rng = seeded(42);
+  const stationNames = [
+    // WC
+    'Cape Town Central','Bellville','Paarl','Stellenbosch','George','Mossel Bay','Beaufort West','Worcester','Strand','Somerset West',
+    'Claremont','Wynberg','Milnerton','Brackenfell','Kuils River','Durbanville','Parow','Gugulethu','Langa','Bonteheuwel',
+    // GP
+    'Johannesburg Central','Pretoria Central','Sandton','Randburg','Krugersdorp','Roodepoort','Benoni','Germiston','Springs','Boksburg',
+    'Ekurhuleni','Centurion','Midrand','Kempton Park','Edenvale','Nigel','Brakpan','Vosloorus','Daveyton','Mamelodi',
+    // KZN
+    'Durban Central','Pietermaritzburg','Richards Bay','Newcastle','Ladysmith','Tongaat','Ballito','Amanzimtoti','Westville','Pinetown',
+    'Chatsworth','Phoenix','Ntuzuma','KwaMashu','Verulam','Stanger','Port Shepstone','Kokstad','Hibberdene','Ixopo',
+    // EC
+    'Gqeberha (Port Elizabeth)','East London','Makhanda (Grahamstown)','King William\'s Town','Queenstown','Butterworth','Komani','Lady Frere','Tsolo','Ngcobo',
+    // LP
+    'Polokwane','Tzaneen','Makhado (Louis Trichardt)','Mokopane','Phalaborwa','Bela-Bela','Giyani','Tubatse','Jane Furse','Sekhukhune',
+    // MP
+    'Nelspruit (Mbombela)','Witbank (eMalahleni)','Middelburg','Secunda','Standerton','Piet Retief','Barberton','White River','Hazyview','Malelane',
+    // NW
+    'Mahikeng','Rustenburg','Klerksdorp','Potchefstroom','Brits','Zeerust','Lichtenburg','Vryburg','Wolmaransstad','Orkney',
+    // FS
+    'Bloemfontein','Welkom','Botshabelo','Mangaung','Phuthaditjhaba','Kroonstad','Sasolburg','Virginia','Parys','Bethlehem',
+    // NC
+    'Kimberley','Upington','Springbok','De Aar','Colesberg','Calvinia','Postmasburg','Kathu','Kuruman','Douglas'
+  ];
+
+  // First add notable stations
+  for(const ns of NOTABLE_STATIONS) {
+    const provData = PROVINCES.find(p=>p.id===ns.province);
+    const baseTotal = Math.round(PROV_RATES_BASE[ns.province] * provData.pop / 100000 / provData.stations * (1 + ns.notability * 6));
+    const score = computeScore(baseTotal, ns.notability, ns.contact_pct, -0.01);
+    stations.push({
+      id: stations.length,
+      name: ns.name,
+      province: ns.province,
+      total2324: baseTotal,
+      contact_pct: ns.contact_pct,
+      notability: ns.notability,
+      score
+    });
+  }
+
+  // Fill rest per province
+  let nameCursor = 0;
+  for(const prov of PROVINCES) {
+    const target = prov.stations - NOTABLE_STATIONS.filter(n=>n.province===prov.id).length;
+    const basePerStation = Math.round(PROV_RATES_BASE[prov.id] * prov.pop / 100000 / prov.stations);
+    for(let i=0; i<target; i++) {
+      const notab = rng() * 0.4;
+      const total = Math.round(basePerStation * (0.3 + rng() * 1.4));
+      const cpct = 0.15 + rng() * 0.25;
+      const trend = (rng() - 0.45) * 0.08;
+      const score = computeScore(total, notab, cpct, trend);
+      const name = stationNames[nameCursor % stationNames.length] + (nameCursor > stationNames.length ? ` ${Math.floor(nameCursor/stationNames.length)}` : '');
+      nameCursor++;
+      stations.push({
+        id: stations.length,
+        name: `${prov.id} Station ${i+1}`,
+        province: prov.id,
+        total2324: total,
+        contact_pct: cpct,
+        notability: notab,
+        score
+      });
+    }
+  }
+
+  return stations;
+}
+
+function computeScore(total, notability, contactPct, trend) {
+  // Lower total = better score
+  const avgTotal = 2100;
+  const volScore = Math.max(0, Math.min(100, 100 - (total / avgTotal) * 50));
+  const trendScore = Math.max(0, Math.min(100, 50 + trend * 500));
+  const mixScore = Math.max(0, Math.min(100, 100 - contactPct * 180));
+  return Math.round(volScore*0.5 + trendScore*0.3 + mixScore*0.2);
+}
+
+function scoreLabel(s) {
+  if(s>=75) return {label:'GREEN — Safe Profile', cls:'badge-green', dot:'tl-green'};
+  if(s>=40) return {label:'AMBER — Moderate Risk', cls:'badge-amber', dot:'tl-amber'};
+  return {label:'RED — Elevated Risk', cls:'badge-red', dot:'tl-red'};
+}
+
+// Generate 5-year trend for a station
+function stationYearlyData(total, notability) {
+  const rng = seeded(total);
+  // COVID dip in 2020/21
+  const indices = [0.91, 0.73, 0.88, 0.96, 1.00];
+  return indices.map((idx,i) => Math.round(total * idx * (0.85 + rng()*0.3)));
+}
+
+// Generate quarterly national data
+function buildQuarterlyData() {
+  const totalAnnual = [2180000, 1750000, 2080000, 2275000, 2370000]; // with COVID dip
+  const result = [];
+  const rng = seeded(77);
+  for(let y=0; y<5; y++) {
+    const base = totalAnnual[y] / 4;
+    for(let q=0; q<4; q++) {
+      result.push(Math.round(base * (0.92 + rng()*0.16)));
+    }
+  }
+  return result;
+}
+
+const ALL_STATIONS = generateStations();
+const QUARTERLY_NATIONAL = buildQuarterlyData();
+
+/* ═══════════════════════════════════════════════════════
+   CHART REGISTRY
+═══════════════════════════════════════════════════════ */
+const chartInstances = {};
+function destroyChart(id) { if(chartInstances[id]) { chartInstances[id].destroy(); delete chartInstances[id]; } }
+function registerChart(id, chart) { destroyChart(id); chartInstances[id] = chart; }
+
+const CHART_DEFAULTS = {
+  font: { family: "'JetBrains Mono', monospace", size: 11 },
+  color: '#7a7570'
+};
+
+Chart.defaults.font.family = CHART_DEFAULTS.font.family;
+Chart.defaults.font.size = CHART_DEFAULTS.font.size;
+Chart.defaults.color = CHART_DEFAULTS.color;
+
+/* ═══════════════════════════════════════════════════════
+   OVERVIEW TAB
+═══════════════════════════════════════════════════════ */
+function renderOverview() {
+  // Donut
+  const catData = CATEGORIES.map(c => Math.round(NATIONAL_TOTAL_2324 * c.pct));
+  registerChart('overview-donut', new Chart(document.getElementById('chart-overview-donut'), {
+    type: 'doughnut',
+    data: {
+      labels: CATEGORIES.map(c=>c.name),
+      datasets: [{ data: catData, backgroundColor: CATEGORIES.map(c=>c.color), borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position:'right', labels: { boxWidth:12, font:{size:10} } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${(ctx.raw/1000).toFixed(0)}k (${(ctx.raw/NATIONAL_TOTAL_2324*100).toFixed(1)}%)` } }
+      }
+    }
+  }));
+
+  // 5-year trend
+  const natTotals = [2180000,1750000,2080000,2275000,2370000];
+  registerChart('overview-trend', new Chart(document.getElementById('chart-overview-trend'), {
+    type: 'line',
+    data: {
+      labels: YEARS,
+      datasets: [{
+        label: 'Total Crimes',
+        data: natTotals,
+        borderColor: '#1a3a5c',
+        backgroundColor: 'rgba(26,58,92,0.08)',
+        borderWidth: 2.5,
+        pointBackgroundColor: '#1a3a5c',
+        pointRadius: 5,
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1e6).toFixed(2)+'M'} },
+        x: { grid:{display:false} }
+      }
+    }
+  }));
+
+  // Top stations list
+  const top10 = ALL_STATIONS.slice().sort((a,b)=>b.total2324-a.total2324).slice(0,10);
+  const tsEl = document.getElementById('overview-top-stations');
+  tsEl.innerHTML = top10.map((s,i) => `
+    <div class="top-station-item">
+      <span class="tsi-rank">${i+1}</span>
+      <div style="flex:1">
+        <div class="tsi-name">${s.name}</div>
+        <div class="tsi-prov">${s.province}</div>
+      </div>
+      <div class="tsi-count">${s.total2324.toLocaleString()}</div>
+    </div>
+  `).join('');
+
+  // Province bars
+  const pvEl = document.getElementById('overview-provinces');
+  const maxRate = Math.max(...PROVINCE_DATA.map(p=>p.rate));
+  pvEl.innerHTML = PROVINCE_DATA.map(p => {
+    const barW = Math.round(p.rate/maxRate*100);
+    const cls = p.yoy > 4 ? 'red' : p.yoy > 2 ? 'amber' : p.yoy < 0 ? 'green' : '';
+    const arrowCls = p.yoy > 0 ? 'trend-up' : p.yoy < 0 ? 'trend-down' : 'trend-flat';
+    const arrow = p.yoy > 0 ? '▲' : p.yoy < 0 ? '▼' : '→';
+    return `<div class="prov-row">
+      <div class="prov-name" style="font-size:0.82rem;">${p.name}</div>
+      <div class="prov-bar-wrap"><div class="progress-bar ${cls}" style="width:${barW}%"></div></div>
+      <div class="prov-value">${p.rate.toLocaleString()}</div>
+      <div class="prov-change ${arrowCls}">${arrow}${Math.abs(p.yoy).toFixed(1)}%</div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATION LOOKUP
+═══════════════════════════════════════════════════════ */
+let searchTimeout = null;
+let activeFilter = '';
+
+function filterLookup() {
+  activeFilter = document.getElementById('lookup-province-filter').value;
+  handleSearchInput(document.getElementById('station-search').value);
+}
+
+function handleSearchInput(val) {
+  clearTimeout(searchTimeout);
+  const dropdown = document.getElementById('search-dropdown');
+  const status = document.getElementById('search-status');
+
+  if(val.length < 2) {
+    dropdown.classList.remove('open');
+    status.textContent = 'Enter a station name to search 1,154 stations.';
+    status.className = 'search-status';
+    return;
+  }
+
+  status.innerHTML = `<span class="dots">Checking records<span>.</span><span>.</span><span>.</span></span>`;
+  status.className = 'search-status loading';
+
+  searchTimeout = setTimeout(() => {
+    const q = val.toLowerCase();
+    let results = ALL_STATIONS.filter(s => {
+      const nameMatch = s.name.toLowerCase().includes(q);
+      const provMatch = !activeFilter || s.province === activeFilter;
+      return nameMatch && provMatch;
+    }).slice(0,12);
+
+    if(results.length === 0) {
+      status.textContent = `No stations found matching "${val}"`;
+      status.className = 'search-status';
+      dropdown.classList.remove('open');
+      return;
+    }
+
+    status.textContent = `${results.length} station${results.length>1?'s':''} found`;
+    status.className = 'search-status';
+
+    dropdown.innerHTML = results.map(s => {
+      const sl = scoreLabel(s.score);
+      return `<div class="search-result-item" onclick="selectStation(${s.id})">
+        <div>
+          <div class="sri-name">${s.name}</div>
+          <div class="sri-meta">${s.province} · ${s.total2324.toLocaleString()} crimes/yr</div>
+        </div>
+        <span class="badge ${sl.cls}">${s.score}</span>
+      </div>`;
+    }).join('');
+    dropdown.classList.add('open');
+  }, 400);
+}
+
+let stationChartTrend = null, stationChartMix = null;
+
+function selectStation(id) {
+  const s = ALL_STATIONS.find(st=>st.id===id);
+  if(!s) return;
+
+  document.getElementById('search-dropdown').classList.remove('open');
+  document.getElementById('station-search').value = s.name;
+
+  const sl = scoreLabel(s.score);
+  const provName = PROVINCES.find(p=>p.id===s.province)?.name || s.province;
+  const yearly = stationYearlyData(s.total2324, s.notability);
+  const prov = PROVINCE_DATA.find(p=>p.id===s.province);
+
+  document.getElementById('sr-province').textContent = provName;
+  document.getElementById('sr-name').textContent = s.name;
+  document.getElementById('sr-meta').textContent = `Total 2023/24: ${s.total2324.toLocaleString()} crimes · Province avg: ${Math.round(prov.total/prov.stations).toLocaleString()}`;
+
+  const sn = document.getElementById('sr-score-num');
+  sn.textContent = s.score;
+  sn.style.color = s.score>=75 ? 'var(--green)' : s.score>=40 ? 'var(--amber)' : 'var(--red)';
+  document.getElementById('sr-score-label').innerHTML = `<span class="tl-dot ${sl.dot}"></span>${sl.label}`;
+
+  const contactCount = Math.round(s.total2324 * s.contact_pct);
+  const propCount    = Math.round(s.total2324 * 0.355);
+  const otherCount   = s.total2324 - contactCount - propCount;
+  const natAvg = Math.round(NATIONAL_TOTAL_2324 / 1154);
+
+  document.getElementById('sr-kpis').innerHTML = `
+    <div class="kpi-card red"><div class="kpi-label">Contact Crimes</div><div class="kpi-value">${contactCount.toLocaleString()}</div><div class="kpi-change">${(s.contact_pct*100).toFixed(0)}% of total</div></div>
+    <div class="kpi-card"><div class="kpi-label">Property Crimes</div><div class="kpi-value">${propCount.toLocaleString()}</div><div class="kpi-change">${(propCount/s.total2324*100).toFixed(0)}% of total</div></div>
+    <div class="kpi-card"><div class="kpi-label">All Crimes Total</div><div class="kpi-value">${s.total2324.toLocaleString()}</div><div class="kpi-change">Nat. avg: ${natAvg.toLocaleString()}</div></div>
+    <div class="kpi-card"><div class="kpi-label">vs Province Avg</div><div class="kpi-value">${s.total2324 > prov.total/prov.stations ? '▲' : '▼'}${Math.abs(Math.round((s.total2324/(prov.total/prov.stations)-1)*100))}%</div><div class="kpi-change">${s.total2324 > prov.total/prov.stations ? 'Above' : 'Below'} avg</div></div>
+  `;
+
+  // Score breakdown
+  const avgT = 2100;
+  const volS = Math.max(0,Math.min(100,100-(s.total2324/avgT)*50));
+  const trendDir = yearly[4] < yearly[0] ? 1 : yearly[4] > yearly[0]*1.1 ? -1 : 0;
+  const trendS = trendDir===1?75:trendDir===0?50:25;
+  const mixS = Math.max(0,Math.min(100,100-s.contact_pct*180));
+
+  document.getElementById('sr-score-breakdown').innerHTML = `
+    <div class="sb-item"><div class="sb-label">Volume (50%)</div><div class="sb-value" style="color:${volS>60?'var(--green)':volS>35?'var(--amber)':'var(--red)'}">${Math.round(volS)}</div></div>
+    <div class="sb-item"><div class="sb-label">Trend (30%)</div><div class="sb-value" style="color:${trendS>60?'var(--green)':trendS>35?'var(--amber)':'var(--red)'}">${trendS}</div></div>
+    <div class="sb-item"><div class="sb-label">Crime Mix (20%)</div><div class="sb-value" style="color:${mixS>60?'var(--green)':mixS>35?'var(--amber)':'var(--red)'}">${Math.round(mixS)}</div></div>
+  `;
+
+  // Trend chart
+  destroyChart('station-trend');
+  registerChart('station-trend', new Chart(document.getElementById('chart-station-trend'), {
+    type:'line',
+    data:{
+      labels: YEARS,
+      datasets:[{
+        label:'Total Crimes',
+        data: yearly,
+        borderColor: s.score>=75?'var(--green)':s.score>=40?'#e8a020':'var(--red)',
+        backgroundColor: s.score>=75?'rgba(26,107,60,0.08)':s.score>=40?'rgba(232,160,32,0.08)':'rgba(192,57,43,0.08)',
+        borderWidth:2.5, pointRadius:5, tension:0.3, fill:true
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'#e2ddd6'}}, x:{grid:{display:false}}}
+    }
+  }));
+
+  // Mix chart
+  const mixData = CATEGORIES.map(c => Math.round(s.total2324 * c.pct));
+  destroyChart('station-mix');
+  registerChart('station-mix', new Chart(document.getElementById('chart-station-mix'), {
+    type:'bar',
+    data:{
+      labels: CATEGORIES.map(c=>c.abbr),
+      datasets:[{
+        data: mixData,
+        backgroundColor: CATEGORIES.map(c=>c.color+'cc'),
+        borderColor: CATEGORIES.map(c=>c.color),
+        borderWidth: 1
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'#e2ddd6'}}, y:{grid:{display:false}}}
+    }
+  }));
+
+  document.getElementById('station-result').classList.add('visible');
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', e => {
+  if(!e.target.closest('.search-wrap')) {
+    document.getElementById('search-dropdown').classList.remove('open');
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
+   PROVINCES TAB
+═══════════════════════════════════════════════════════ */
+function renderProvinces() {
+  const labels = PROVINCE_DATA.map(p=>p.name.replace(' Cape','').replace('KwaZulu-','KZN: '));
+  const rates = PROVINCE_DATA.map(p=>p.rate);
+  const totals = PROVINCE_DATA.map(p=>p.total);
+  const colors = PROVINCE_DATA.map(p => p.rate>4000?'rgba(192,57,43,0.85)':p.rate>3500?'rgba(232,120,32,0.85)':p.rate>2500?'rgba(37,99,168,0.85)':'rgba(26,107,60,0.85)');
+
+  registerChart('prov-bar', new Chart(document.getElementById('chart-prov-bar'), {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Rate per 100k', data:rates, backgroundColor:colors, borderRadius:4 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.raw.toLocaleString()+' per 100k'}}},
+      scales:{x:{grid:{color:'#e2ddd6'}}, y:{grid:{display:false}, ticks:{font:{size:10}}}}
+    }
+  }));
+
+  registerChart('prov-abs', new Chart(document.getElementById('chart-prov-abs'), {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Total Crimes', data:totals, backgroundColor:'rgba(26,58,92,0.75)', borderRadius:4 }] },
+    options:{
+      responsive:true, maintainAspectRatio:false, indexAxis:'y',
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.raw.toLocaleString()}}},
+      scales:{x:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000)+'k'}}, y:{grid:{display:false}, ticks:{font:{size:10}}}}
+    }
+  }));
+
+  // Table
+  const tbl = document.getElementById('prov-table');
+  tbl.innerHTML = `<thead><tr><th>Rank</th><th>Province</th><th>Population</th><th>Stations</th><th>Total Crimes</th><th>Rate /100k</th><th>YoY Change</th><th>Status</th></tr></thead><tbody>` +
+    PROVINCE_DATA.map((p,i) => {
+      const arrow = p.yoy>0?'▲':'▼';
+      const arrowCls = p.yoy>0?'trend-up':'trend-down';
+      const badge = p.yoy>4?'badge-red':p.yoy>2?'badge-amber':p.yoy<0?'badge-green':'badge-blue';
+      const label = p.yoy>4?'Worsening':p.yoy>2?'Rising':p.yoy<0?'Improving':'Stable';
+      return `<tr>
+        <td class="rank">${i+1}</td>
+        <td style="font-weight:500">${p.name}</td>
+        <td class="num">${(p.pop/1e6).toFixed(2)}M</td>
+        <td class="num">${p.stations}</td>
+        <td class="num">${p.total.toLocaleString()}</td>
+        <td class="num">${p.rate.toLocaleString()}</td>
+        <td class="num ${arrowCls}">${arrow}${Math.abs(p.yoy).toFixed(1)}%</td>
+        <td><span class="badge ${badge}">${label}</span></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+}
+
+/* ═══════════════════════════════════════════════════════
+   CATEGORIES TAB
+═══════════════════════════════════════════════════════ */
+let activeCat = 'contact';
+
+function renderCategories() {
+  // Pills
+  const pills = document.getElementById('cat-pills');
+  pills.innerHTML = CATEGORIES.map(c => `
+    <button class="cat-pill ${c.id===activeCat?'active':''}" onclick="selectCat('${c.id}')">${c.name}</button>
+  `).join('');
+
+  updateCatDetail();
+
+  // Compare chart
+  const catTotals = CATEGORIES.map(c => Math.round(NATIONAL_TOTAL_2324*c.pct));
+  registerChart('cat-compare', new Chart(document.getElementById('chart-cat-compare'), {
+    type:'bar',
+    data:{
+      labels: CATEGORIES.map(c=>c.name),
+      datasets:[{ label:'Crimes 2023/24', data:catTotals, backgroundColor:CATEGORIES.map(c=>c.color+'bb'), borderColor:CATEGORIES.map(c=>c.color), borderWidth:1, borderRadius:4 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+ctx.raw.toLocaleString()}}},
+      scales:{y:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000)+'k'}}, x:{grid:{display:false}, ticks:{font:{size:9}, maxRotation:30}}}
+    }
+  }));
+
+  // 5-year trends per category
+  const annuals = [2180000,1750000,2080000,2275000,2370000];
+  const datasets = CATEGORIES.map(c=>({
+    label:c.abbr,
+    data: annuals.map(t=>Math.round(t*c.pct)),
+    borderColor:c.color,
+    backgroundColor:'transparent',
+    borderWidth:2,
+    pointRadius:3,
+    tension:0.3
+  }));
+  registerChart('cat-trends', new Chart(document.getElementById('chart-cat-trends'), {
+    type:'line',
+    data:{ labels:YEARS, datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:10}}}},
+      scales:{y:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000)+'k'}}, x:{grid:{display:false}}}
+    }
+  }));
+}
+
+function selectCat(id) {
+  activeCat = id;
+  document.querySelectorAll('.cat-pill').forEach(el => el.classList.toggle('active', el.textContent===CATEGORIES.find(c=>c.id===id).name));
+  updateCatDetail();
+}
+
+function updateCatDetail() {
+  const cat = CATEGORIES.find(c=>c.id===activeCat);
+  const total = Math.round(NATIONAL_TOTAL_2324 * cat.pct);
+  const subcats = CAT_SUBCATEGORIES[activeCat];
+  const rng = seeded(activeCat.charCodeAt(0)*13);
+  const subTotals = subcats.map(()=>Math.round(total/subcats.length*(0.5+rng()*1.0)));
+  const adjSum = subTotals.reduce((a,b)=>a+b,0);
+  const adjSubTotals = subTotals.map(v=>Math.round(v/adjSum*total));
+
+  document.getElementById('cat-detail').innerHTML = `
+    <div class="card card-sm">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:16px;height:16px;border-radius:3px;background:${cat.color};flex-shrink:0"></div>
+        <div>
+          <div style="font-weight:600;font-family:var(--serif)">${cat.name}</div>
+          <div style="font-size:0.8rem;color:var(--text-3)">${total.toLocaleString()} crimes — ${(cat.pct*100).toFixed(1)}% of national total (2023/24)</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Sub-category</th><th style="text-align:right">Count</th><th style="text-align:right">% of Category</th><th style="min-width:120px">Share</th></tr></thead>
+          <tbody>
+            ${adjSubTotals.map((v,i)=>`<tr>
+              <td>${subcats[i]}</td>
+              <td class="num">${v.toLocaleString()}</td>
+              <td class="num">${(v/total*100).toFixed(1)}%</td>
+              <td><div class="progress-bar-wrap"><div class="progress-bar" style="width:${Math.round(v/adjSubTotals[0]*100)}%;background:${cat.color}"></div></div></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TRENDS TAB
+═══════════════════════════════════════════════════════ */
+function renderTrends() {
+  // Main quarterly
+  registerChart('trends-main', new Chart(document.getElementById('chart-trends-main'), {
+    type:'line',
+    data:{
+      labels: QUARTERS,
+      datasets:[{
+        label:'Total Crimes',
+        data: QUARTERLY_NATIONAL,
+        borderColor:'#1a3a5c',
+        backgroundColor:'rgba(26,58,92,0.06)',
+        borderWidth:2, pointRadius:3, tension:0.3, fill:true
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        y:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}},
+        x:{grid:{display:false}, ticks:{maxTicksLimit:10, font:{size:9}}}
+      }
+    }
+  }));
+
+  // Contact quarterly
+  const contactQ = QUARTERLY_NATIONAL.map(v=>Math.round(v*0.30*(0.92+Math.random()*0.16)));
+  registerChart('trends-contact', new Chart(document.getElementById('chart-trends-contact'), {
+    type:'line',
+    data:{
+      labels:QUARTERS,
+      datasets:[{label:'Contact Crimes',data:contactQ,borderColor:'var(--red)',backgroundColor:'rgba(192,57,43,0.05)',borderWidth:2,pointRadius:2,tension:0.3,fill:true}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}, x:{grid:{display:false}, ticks:{maxTicksLimit:8,font:{size:9}}}}
+    }
+  }));
+
+  // Property quarterly
+  const propQ = QUARTERLY_NATIONAL.map(v=>Math.round(v*0.355*(0.92+Math.random()*0.16)));
+  registerChart('trends-property', new Chart(document.getElementById('chart-trends-property'), {
+    type:'line',
+    data:{
+      labels:QUARTERS,
+      datasets:[{label:'Property Crimes',data:propQ,borderColor:CATEGORIES[2].color,backgroundColor:'rgba(37,99,168,0.05)',borderWidth:2,pointRadius:2,tension:0.3,fill:true}]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'#e2ddd6'}, ticks:{callback:v=>(v/1000).toFixed(0)+'k'}}, x:{grid:{display:false}, ticks:{maxTicksLimit:8,font:{size:9}}}}
+    }
+  }));
+
+  // YoY table
+  const catAnnuals = {};
+  const annuals = [2180000,1750000,2080000,2275000,2370000];
+  CATEGORIES.forEach(c => {
+    catAnnuals[c.id] = annuals.map(t=>Math.round(t*c.pct));
+  });
+
+  const tbl = document.getElementById('trends-table');
+  tbl.innerHTML = `<thead><tr><th>Category</th>${YEARS.map(y=>`<th style="text-align:right">${y}</th>`).join('')}<th>4-Yr Change</th></tr></thead><tbody>` +
+    CATEGORIES.map(c=>{
+      const vals = catAnnuals[c.id];
+      const chg = ((vals[4]/vals[0]-1)*100).toFixed(1);
+      const chgCls = parseFloat(chg)>0?'trend-up':'trend-down';
+      return `<tr>
+        <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c.color};margin-right:6px;"></span>${c.name}</td>
+        ${vals.map(v=>`<td class="num">${(v/1000).toFixed(0)}k</td>`).join('')}
+        <td class="num ${chgCls}">${parseFloat(chg)>0?'▲':'▼'}${Math.abs(chg)}%</td>
+      </tr>`;
+    }).join('') + '</tbody>';
+}
+
+/* ═══════════════════════════════════════════════════════
+   TAB NAVIGATION
+═══════════════════════════════════════════════════════ */
+const panelRendered = {};
+
+function switchPanel(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelector(`[data-panel="${id}"]`)?.classList.add('active');
+
+  if(!panelRendered[id]) {
+    panelRendered[id] = true;
+    switch(id) {
+      case 'overview':   renderOverview(); break;
+      case 'provinces':  renderProvinces(); break;
+      case 'categories': renderCategories(); break;
+      case 'trends':     renderTrends(); break;
+    }
+  }
+}
+
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => switchPanel(tab.dataset.panel));
+});
+
+// Init overview
+panelRendered['overview'] = true;
+renderOverview();
+</script>
+</body>
+</html>
