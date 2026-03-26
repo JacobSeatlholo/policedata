@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PoliceData ZA — South Africa Crime Statistics Dashboard</title>
   <meta name="description" content="Public crime statistics dashboard for South Africa. Search police stations, compare provincial crime rates, and track trends from 2019/20 to 2024/25. Anchored to official SAPS published figures." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1842,21 +1842,31 @@ function renderProvinces() {
 
   // Table
   const tbl = document.getElementById('prov-table');
-  tbl.innerHTML = `<thead><tr><th>Rank</th><th>Province</th><th>Population</th><th>Stations</th><th>Total Crimes</th><th>Rate /100k</th><th>YoY Change</th><th>Status</th></tr></thead><tbody>` +
+  tbl.innerHTML = `
+    <thead><tr>
+      <th style="width:48px;">Rank</th>
+      <th>Province</th>
+      <th style="text-align:right;">Population</th>
+      <th style="text-align:right;">Stations</th>
+      <th style="text-align:right;">Total Crimes</th>
+      <th style="text-align:right;">Rate /100k</th>
+      <th style="text-align:right;">YoY Change</th>
+      <th style="text-align:center;">Status</th>
+    </tr></thead><tbody>` +
     PROVINCE_DATA.map((p,i) => {
       const arrow = p.yoy>0?'▲':'▼';
       const arrowCls = p.yoy>0?'trend-up':'trend-down';
       const badge = p.yoy>4?'badge-red':p.yoy>2?'badge-amber':p.yoy<0?'badge-green':'badge-blue';
       const label = p.yoy>4?'Worsening':p.yoy>2?'Rising':p.yoy<0?'Improving':'Stable';
       return `<tr>
-        <td class="rank">${i+1}</td>
-        <td style="font-weight:500">${p.name}</td>
+        <td class="rank" style="text-align:center;">${i+1}</td>
+        <td style="font-weight:500;white-space:nowrap;">${p.name}</td>
         <td class="num">${(p.pop/1e6).toFixed(2)}M</td>
         <td class="num">${p.stations}</td>
         <td class="num">${p.total.toLocaleString()}</td>
         <td class="num">${p.rate.toLocaleString()}</td>
-        <td class="num ${arrowCls}">${arrow}${Math.abs(p.yoy).toFixed(1)}%</td>
-        <td><span class="badge ${badge}">${label}</span></td>
+        <td class="num ${arrowCls}" style="white-space:nowrap;">${arrow} ${Math.abs(p.yoy).toFixed(1)}%</td>
+        <td style="text-align:center;"><span class="badge ${badge}">${label}</span></td>
       </tr>`;
     }).join('') + '</tbody>';
 }
@@ -2188,32 +2198,191 @@ const STATION_COORDS = {
   'Kuruman':            [-27.4542, 23.4322],
 };
 
-// Provincial bounding boxes [minLat, maxLat, minLng, maxLng]
+// Provincial bounding boxes — fallback only
 const PROV_BOUNDS = {
-  WC:  [-34.83,-31.85, 17.85, 23.30],
-  GP:  [-26.70,-25.33, 27.35, 29.00],
-  KZN: [-31.00,-26.50, 28.50, 32.90],
-  EC:  [-34.10,-30.00, 24.80, 30.10],
-  LP:  [-24.70,-22.00, 28.50, 31.60],
-  MP:  [-27.40,-24.30, 29.00, 32.50],
-  NW:  [-27.90,-24.80, 24.00, 28.50],
-  FS:  [-30.90,-26.50, 24.50, 29.90],
-  NC:  [-32.80,-27.60, 16.50, 25.80]
+  WC:[-34.83,-31.85,17.85,23.30], GP:[-26.70,-25.33,27.35,29.00], KZN:[-31.00,-26.50,28.50,32.90],
+  EC:[-34.10,-30.00,24.80,30.10], LP:[-24.70,-22.00,28.50,31.60], MP:[-27.40,-24.30,29.00,32.50],
+  NW:[-27.90,-24.80,24.00,28.50], FS:[-30.90,-26.50,24.50,29.90], NC:[-32.80,-27.60,16.50,25.80]
+};
+
+// Sub-regional population clusters per province — stations scatter around real towns/districts
+// Each entry: [lat, lng, weight] — weight drives how likely stations cluster here
+const PROV_CLUSTERS = {
+  WC: [
+    [-33.925, 18.424, 0.28], // Cape Town metro
+    [-33.980, 18.626, 0.10], // Khayelitsha/Mitchell's Plain
+    [-33.900, 18.633, 0.05], // Bellville/Parow
+    [-33.727, 18.963, 0.06], // Paarl/Wellington
+    [-33.935, 18.861, 0.04], // Stellenbosch
+    [-33.963, 22.462, 0.05], // George
+    [-34.182, 22.143, 0.03], // Mossel Bay
+    [-33.645, 19.448, 0.03], // Worcester
+    [-34.422, 19.228, 0.02], // Swellendam
+    [-31.892, 18.853, 0.02], // Citrusdal/Clanwilliam
+    [-31.472, 18.479, 0.02], // Vredendal
+    [-33.234, 26.519, 0.01], // Beaufort West area
+    [-34.357, 21.257, 0.02], // Heidelberg WC
+    [-33.576, 22.203, 0.02], // Ladismith
+  ],
+  GP: [
+    [-26.204, 28.047, 0.22], // Johannesburg CBD
+    [-26.073, 28.057, 0.10], // Sandton/Midrand north
+    [-26.139, 27.992, 0.08], // Randburg/Roodepoort west
+    [-25.748, 28.188, 0.12], // Pretoria/Centurion/Tshwane
+    [-26.000, 28.217, 0.09], // Tembisa/Ivory Park/Edenvale
+    [-26.110, 27.868, 0.05], // Krugersdorp/Mogale City
+    [-26.270, 27.859, 0.04], // Soweto/Diepkloof
+    [-26.483, 27.817, 0.04], // Orange Farm/Lenasia
+    [-26.358, 27.654, 0.03], // Westonaria/Randfontein
+    [-26.460, 28.080, 0.03], // Vaal/Evaton
+    [-26.580, 28.400, 0.03], // Vereeniging/Vanderbijlpark
+    [-25.397, 28.284, 0.04], // Temba/Hammanskraal
+    [-26.080, 28.357, 0.04], // Kempton Park/Boksburg
+    [-26.247, 28.417, 0.03], // Germiston/Alberton
+    [-26.090, 28.730, 0.02], // Benoni/Springs/Nigel
+    [-25.678, 28.367, 0.03], // Mamelodi/Atteridgeville
+  ],
+  KZN: [
+    [-29.858, 31.029, 0.18], // Durban metro
+    [-29.717, 31.000, 0.07], // Phoenix/KwaMashu
+    [-29.967, 30.883, 0.05], // Umlazi/Isipingo
+    [-29.634, 30.379, 0.08], // Pietermaritzburg
+    [-29.100, 30.150, 0.04], // Howick/Hilton/Midlands
+    [-28.725, 31.900, 0.05], // Richards Bay/Empangeni
+    [-27.757, 29.932, 0.04], // Newcastle
+    [-28.330, 30.050, 0.03], // Ladysmith
+    [-29.333, 31.391, 0.03], // Stanger/Kwadukuza
+    [-30.730, 30.454, 0.03], // Port Shepstone
+    [-29.633, 31.048, 0.03], // Verulam/Tongaat
+    [-28.600, 32.050, 0.02], // Mtunzini
+    [-27.100, 32.170, 0.02], // Pongola/Jozini
+    [-30.200, 30.100, 0.03], // Ixopo/Umzimkulu
+    [-29.970, 30.650, 0.02], // Hammarsdale/Mpumalanga KZN
+  ],
+  EC: [
+    [-33.961, 25.602, 0.18], // Gqeberha (Port Elizabeth)
+    [-33.015, 27.912, 0.14], // East London/Buffalo City
+    [-31.589, 28.784, 0.07], // Mthatha
+    [-32.897, 27.436, 0.04], // King Williams Town/Bhisho
+    [-31.897, 26.877, 0.04], // Queenstown/Komani
+    [-32.333, 28.150, 0.05], // Butterworth/Centane
+    [-31.367, 29.583, 0.04], // Lusikisiki/Port St Johns
+    [-30.543, 28.623, 0.03], // Aliwal North
+    [-31.250, 28.250, 0.03], // Lady Frere/Engcobo
+    [-33.450, 26.897, 0.02], // Grahamstown/Makhanda
+    [-32.100, 24.533, 0.02], // Graaff-Reinet
+    [-33.643, 26.580, 0.02], // Cookhouse/Somerset East
+    [-30.970, 25.590, 0.02], // Middelburg EC
+  ],
+  LP: [
+    [-23.905, 29.469, 0.20], // Polokwane
+    [-23.883, 29.733, 0.08], // Mankweng/Sovenga
+    [-23.817, 29.400, 0.05], // Seshego
+    [-23.833, 30.158, 0.05], // Tzaneen
+    [-22.939, 30.484, 0.08], // Thohoyandou/Vhembe
+    [-24.170, 29.583, 0.04], // Mokopane
+    [-23.100, 29.900, 0.04], // Makhado/Louis Trichardt
+    [-23.942, 31.136, 0.04], // Phalaborwa
+    [-24.170, 30.580, 0.03], // Giyani
+    [-24.680, 30.100, 0.03], // Burgersfort/Tubatse
+    [-24.270, 28.270, 0.02], // Bela-Bela
+    [-24.500, 29.000, 0.03], // Lebowakgomo
+    [-22.500, 30.150, 0.02], // Musina
+    [-23.400, 29.600, 0.03], // Bochum/Dendron
+  ],
+  MP: [
+    [-25.475, 30.969, 0.20], // Nelspruit/Mbombela
+    [-25.874, 29.242, 0.12], // Witbank/eMalahleni
+    [-25.776, 29.465, 0.08], // Middelburg MP
+    [-26.519, 29.170, 0.07], // Secunda/Evander
+    [-26.200, 30.000, 0.05], // Standerton/Volksrust
+    [-25.050, 31.117, 0.05], // Hazyview/White River
+    [-25.100, 30.780, 0.04], // Sabie/Graskop
+    [-25.000, 31.600, 0.04], // Komatipoort/Malelane
+    [-26.500, 30.950, 0.03], // Piet Retief
+    [-26.217, 29.417, 0.03], // Bethal/Ermelo
+    [-24.783, 30.450, 0.03], // Bushbuckridge
+    [-25.470, 31.640, 0.02], // Barberton
+  ],
+  NW: [
+    [-25.865, 25.643, 0.20], // Mahikeng/Mafikeng
+    [-25.667, 27.242, 0.15], // Rustenburg
+    [-26.850, 26.667, 0.12], // Klerksdorp/Matlosana
+    [-26.717, 27.100, 0.07], // Potchefstroom/JB Marks
+    [-25.780, 28.180, 0.05], // Brits/Madibeng
+    [-25.950, 26.900, 0.04], // Zeerust/Ramotshere
+    [-26.800, 26.170, 0.03], // Stilfontein/Orkney
+    [-27.430, 24.766, 0.03], // Vryburg
+    [-26.617, 26.833, 0.02], // Wolmaransstad
+    [-25.483, 26.650, 0.03], // Lichtenburg
+    [-26.100, 27.800, 0.03], // Hartbeespoort
+    [-26.870, 25.650, 0.02], // Schweizer-Reneke
+  ],
+  FS: [
+    [-29.121, 26.204, 0.25], // Bloemfontein/Mangaung
+    [-27.983, 26.733, 0.12], // Welkom/Matjhabeng
+    [-29.256, 26.726, 0.07], // Botshabelo
+    [-28.600, 28.667, 0.05], // Phuthaditjhaba/QwaQwa
+    [-27.651, 27.231, 0.05], // Kroonstad
+    [-26.810, 27.833, 0.04], // Sasolburg/Zamdela
+    [-27.083, 26.717, 0.03], // Virginia/Hennenman
+    [-26.867, 26.900, 0.03], // Allanridge/Odendaalsrus
+    [-28.231, 28.311, 0.03], // Bethlehem
+    [-28.283, 29.117, 0.02], // Harrismith
+    [-29.650, 27.183, 0.02], // Springfontein/Trompsburg
+    [-28.767, 27.467, 0.02], // Senekal/Ficksburg
+  ],
+  NC: [
+    [-28.728, 24.750, 0.25], // Kimberley/Sol Plaatje
+    [-28.448, 21.256, 0.12], // Upington/!Kheis
+    [-29.664, 17.887, 0.07], // Springbok/Namakwa
+    [-30.650, 24.017, 0.05], // De Aar/Renosterberg
+    [-30.700, 25.600, 0.04], // Middelburg NC/Colesberg
+    [-27.700, 23.050, 0.05], // Kathu/Gamagara
+    [-27.454, 23.432, 0.04], // Kuruman/John Taolo Gaetsewe
+    [-28.567, 21.833, 0.03], // Kenhardt
+    [-30.967, 22.367, 0.02], // Calvinia/Hantam
+    [-29.117, 23.367, 0.02], // Prieska
+    [-29.583, 22.600, 0.02], // Vosburg/Carnarvon
+    [-28.083, 22.883, 0.03], // Postmasburg
+  ]
 };
 
 function getStationCoords(station) {
-  // Try exact name match
+  // 1. Exact name match
   if (STATION_COORDS[station.name]) return STATION_COORDS[station.name];
-  // Try partial match
+  // 2. Partial name match against known coords
+  const lname = station.name.toLowerCase();
   for (const [key, coords] of Object.entries(STATION_COORDS)) {
-    if (station.name.includes(key) || key.includes(station.name)) return coords;
+    if (lname.includes(key.toLowerCase()) || key.toLowerCase().includes(lname)) return coords;
   }
-  // Generate deterministic coords within province bounds
+  // 3. Cluster-weighted scatter — most stations land near real population centres
+  const clusters = PROV_CLUSTERS[station.province];
+  if (clusters) {
+    const rng2 = seeded(station.id * 7919 + 31337);
+    // Pick a cluster weighted by population weight
+    const totalW = clusters.reduce((s, c) => s + c[2], 0);
+    let pick = rng2() * totalW;
+    let chosen = clusters[0];
+    for (const cl of clusters) {
+      pick -= cl[2];
+      if (pick <= 0) { chosen = cl; break; }
+    }
+    // Scatter within ~25km radius of cluster centre
+    const spread = 0.18 + rng2() * 0.12;
+    const angle = rng2() * Math.PI * 2;
+    return [
+      chosen[0] + Math.sin(angle) * spread * (0.4 + rng2() * 0.6),
+      chosen[1] + Math.cos(angle) * spread * (0.4 + rng2() * 0.6)
+    ];
+  }
+  // 4. Fallback to province bounding box
   const bounds = PROV_BOUNDS[station.province] || [-30,-25, 25, 30];
-  const rng2 = seeded(station.id * 7919 + 31337);
-  const lat = bounds[0] + rng2() * (bounds[1] - bounds[0]);
-  const lng = bounds[2] + rng2() * (bounds[3] - bounds[2]);
-  return [lat, lng];
+  const rng3 = seeded(station.id * 3571 + 19937);
+  return [
+    bounds[0] + rng3() * (bounds[1] - bounds[0]),
+    bounds[2] + rng3() * (bounds[3] - bounds[2])
+  ];
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2276,11 +2445,12 @@ function buildMapLayers() {
 
   if (layerMode === 'heat' || layerMode === 'both') {
     heatLayer = L.heatLayer(heatData, {
-      radius: 28,
-      blur: 22,
-      maxZoom: 14,
+      radius: 32,
+      blur: 24,
+      maxZoom: 15,
       max: 1.0,
-      gradient: { 0.0: '#1a6b3c', 0.3: '#b8860b', 0.6: '#e07020', 1.0: '#c0392b' }
+      minOpacity: 0.25,
+      gradient: { 0.0: '#1a6b3c', 0.2: '#4a9b6c', 0.45: '#b8860b', 0.70: '#e07020', 1.0: '#c0392b' }
     }).addTo(mapInstance);
   }
 
@@ -2388,4 +2558,4 @@ panelRendered['overview'] = true;
 renderOverview();
 </script>
 </body>
-</html>
+</html>/???
