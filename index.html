@@ -1,12 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en-ZA">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PoliceData ZA — South Africa Crime Statistics Dashboard</title>
-  <meta name="description" content="Public crime statistics dashboard for South Africa. Search police stations, compare provincial crime rates, and track trends from 2019/20 to 2024/25. Anchored to official SAPS published figures." />
+
+  <!-- ═══════════════════════════════════════════
+       PRIMARY SEO
+  ═══════════════════════════════════════════ -->
+
+  <title>PoliceData ZA — Free South Africa Crime Statistics Dashboard 2024/25</title>
+  <meta name="description" content="Free, interactive South Africa crime statistics dashboard. Search 1,163 SAPS police stations, view crime heat maps, provincial rankings, and trends from 2019 to 2025. Real data from official SAPS annual reports." />
+  <meta name="keywords" content="South Africa crime statistics, SAPS crime stats 2024, police station crime rates, South Africa murder rate, crime map South Africa, Gauteng crime statistics, Western Cape crime, KwaZulu-Natal crime, Nyanga crime stats, Mfuleni crime, Cape Town crime statistics, Johannesburg crime statistics, SAPS annual report 2024, community safety score, crime per 100000 South Africa, South Africa safety, policedata, crime dashboard South Africa" />
+  <meta name="author" content="Business Hustle, Cape Town, South Africa" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="language" content="English" />
+  <meta name="geo.region" content="ZA" />
+  <meta name="geo.country" content="South Africa" />
+  <link rel="canonical" href="https://www.policedata.online/" />
+
+  <!-- ═══════════════════════════════════════════
+       OPEN GRAPH (Facebook, LinkedIn, WhatsApp)
+  ═══════════════════════════════════════════ -->
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.policedata.online/" />
+  <meta property="og:site_name" content="PoliceData ZA" />
+  <meta property="og:title" content="PoliceData ZA — Free South Africa Crime Statistics Dashboard" />
+  <meta property="og:description" content="Search 1,163 SAPS police stations. Free crime heat map. Real data from official SAPS reports — murder 27,621 · carjacking 22,735 · kidnapping 17,061. Updated quarterly." />
+  <meta property="og:image" content="https://www.policedata.online/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="PoliceData ZA crime statistics dashboard showing South Africa heat map and crime figures" />
+  <meta property="og:locale" content="en_ZA" />
+
+  <!-- ═══════════════════════════════════════════
+       TWITTER / X CARD
+  ═══════════════════════════════════════════ -->
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@BusinessHustleZA" />
+  <meta name="twitter:creator" content="@BusinessHustleZA" />
+  <meta name="twitter:title" content="PoliceData ZA — Free SA Crime Statistics Dashboard" />
+  <meta name="twitter:description" content="Search 1,163 SAPS police stations. Free interactive crime heat map. Real SAPS data — updated quarterly. No login. No paywall." />
+  <meta name="twitter:image" content="https://www.policedata.online/og-image.png" />
+  <meta name="twitter:image:alt" content="PoliceData ZA — South Africa crime statistics dashboard" />
+
+  <!-- ═══════════════════════════════════════════
+       JSON-LD STRUCTURED DATA
+       Helps Google understand the page as a dataset/tool
+  ═══════════════════════════════════════════ -->
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://www.policedata.online/#webapp",
+        "name": "PoliceData ZA",
+        "url": "https://www.policedata.online/",
+        "description": "Free, open South Africa crime statistics dashboard. Search 1,163 SAPS police stations, view crime heat maps, provincial rankings, and 5-year trends based on official SAPS published data.",
+        "applicationCategory": "GovernmentApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "ZAR"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Business Hustle",
+          "url": "https://businesshustle.co.za",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Cape Town",
+            "addressCountry": "ZA"
+          }
+        },
+        "about": {
+          "@type": "Thing",
+          "name": "South Africa Crime Statistics",
+          "description": "Crime statistics from the South African Police Service (SAPS) for all 1,163 police stations across 9 provinces"
+        },
+        "featureList": [
+          "Search 1,163 SAPS police stations by name or province",
+          "Interactive crime heat map of South Africa",
+          "Provincial crime rankings per 100,000 population",
+          "5-year crime trend analysis 2019/20 to 2023/24",
+          "Community Safety Score for every station",
+          "Real SAPS published crime figures — no paywall"
+        ],
+        "keywords": "South Africa crime statistics, SAPS, police stations, crime map, murder rate, Gauteng, Western Cape, KwaZulu-Natal"
+      },
+      {
+        "@type": "Dataset",
+        "@id": "https://www.policedata.online/#dataset",
+        "name": "South Africa SAPS Crime Statistics 2019–2025",
+        "description": "Crime statistics for 1,163 South African police stations across 9 provinces, covering 21 priority crime categories from 2019/20 to 2024/25 Q3. Sourced from official SAPS Annual Crime Reports and quarterly presentations.",
+        "url": "https://www.policedata.online/",
+        "keywords": ["crime statistics", "South Africa", "SAPS", "murder", "robbery", "burglary", "police stations", "Gauteng", "Western Cape"],
+        "license": "https://creativecommons.org/licenses/by/4.0/",
+        "isAccessibleForFree": true,
+        "creator": {
+          "@type": "Organization",
+          "name": "Business Hustle",
+          "url": "https://businesshustle.co.za"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Business Hustle",
+          "url": "https://businesshustle.co.za"
+        },
+        "spatialCoverage": {
+          "@type": "Place",
+          "name": "South Africa",
+          "geo": {
+            "@type": "GeoShape",
+            "box": "-34.83 16.45 -22.13 32.89"
+          }
+        },
+        "temporalCoverage": "2019/2025",
+        "variableMeasured": [
+          "Murder rate per 100,000 population",
+          "Total crimes per police station",
+          "Contact crime count",
+          "Property crime count",
+          "Year-on-year crime change"
+        ],
+        "measurementTechnique": "Administrative recording by SAPS via Case Administration System (CAS)",
+        "isBasedOn": {
+          "@type": "CreativeWork",
+          "name": "SAPS Annual Crime Report 2023/24",
+          "publisher": { "@type": "Organization", "name": "South African Police Service" },
+          "url": "https://www.saps.gov.za/services/crimestats.php"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.policedata.online/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the murder rate in South Africa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "South Africa's national murder rate is 44.9 per 100,000 population, based on 27,621 murders recorded in the 2023/24 financial year (April 2023 to March 2024), according to the official SAPS Annual Crime Report."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which is the most dangerous police station area in South Africa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "According to SAPS Q3 2024/25 data, Cape Town Central recorded the highest total crimes nationally (3,207 in a single quarter), followed by Durban Central and Mitchells Plain. For contact crimes specifically, Mfuleni in the Western Cape leads with 1,151 contact crimes per quarter, followed by Tembisa and Delft."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which province has the highest crime rate in South Africa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The Western Cape has the highest crime rate per 100,000 population at 4,680, driven by gang violence in Cape Town. Gauteng records the highest absolute crime volume due to its large population, contributing 26.5% of all reported crimes nationally."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How often does SAPS release crime statistics?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SAPS releases quarterly crime statistics approximately 6 weeks after each quarter ends, and a comprehensive Annual Crime Report each September. The financial year runs April 1 to March 31."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is South Africa crime getting better or worse?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The picture is mixed. Murders decreased 10.6% from 27,621 in 2023/24 to 24,692 in 2024/25 — a significant improvement. Property crimes such as residential burglary have been declining for a decade (down 12.3% in Q3 2024/25). However, kidnapping rose 264% over the past decade to 17,061 cases, and commercial crime is rising sharply at +8.9% quarterly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many police stations are there in South Africa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "South Africa has 1,163 SAPS police stations, including satellite stations and stations at ports of entry, spread across 9 provinces."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.policedata.online/" },
+          { "@type": "ListItem", "position": 2, "name": "Crime Statistics", "item": "https://www.policedata.online/#overview" },
+          { "@type": "ListItem", "position": 3, "name": "Station Lookup", "item": "https://www.policedata.online/#lookup" },
+          { "@type": "ListItem", "position": 4, "name": "Heat Map", "item": "https://www.policedata.online/#heatmap" }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- ═══════════════════════════════════════════
+       PERFORMANCE & RESOURCE HINTS
+  ═══════════════════════════════════════════ -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://tile.openstreetmap.org" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
@@ -17,29 +223,29 @@
        TOKENS & RESET
     ═══════════════════════════════════════════ */
     :root {
-      --bg:        #f7f6f2;
+      --bg:        #ffffff;
       --bg-card:   #ffffff;
-      --bg-subtle: #f0ede6;
-      --border:    #e2ddd6;
-      --border-strong: #c8c1b7;
-      --text:      #1a1714;
-      --text-2:    #4a4540;
-      --text-3:    #7a7570;
+      --bg-subtle: #f5f7fa;
+      --border:    #e4e7ec;
+      --border-strong: #c8cdd6;
+      --text:      #111827;
+      --text-2:    #374151;
+      --text-3:    #6b7280;
       --accent:    #1a3a5c;
       --accent-2:  #2563a8;
       --gold:      #b8860b;
-      --green:     #1a6b3c;
-      --green-bg:  #e8f5ee;
-      --amber:     #b85c00;
-      --amber-bg:  #fef3e2;
-      --red:       #c0392b;
-      --red-bg:    #fdf0ee;
+      --green:     #15803d;
+      --green-bg:  #f0fdf4;
+      --amber:     #b45309;
+      --amber-bg:  #fffbeb;
+      --red:       #dc2626;
+      --red-bg:    #fef2f2;
       --mono:      'JetBrains Mono', monospace;
       --sans:      'Instrument Sans', sans-serif;
       --serif:     'Playfair Display', serif;
       --radius:    6px;
-      --shadow:    0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.05);
-      --shadow-lg: 0 2px 8px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.08);
+      --shadow:    0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+      --shadow-lg: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
       --transition: 0.2s ease;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,532 +264,536 @@
     img { max-width: 100%; }
     button { cursor: pointer; font-family: var(--sans); }
 
-    /* ═══════════════════════════════════════════
-       LAYOUT SHELL
-    ═══════════════════════════════════════════ */
-    .site-header {
-      background: var(--accent);
-      color: #fff;
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 3px solid var(--gold);
-    }
-    .header-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      height: 60px;
-    }
-    .logo-block { display: flex; align-items: center; gap: 12px; }
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--gold);
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-    }
-    .logo-text { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: #fff; }
-    .logo-text span { color: var(--gold); }
-    .header-badge {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: rgba(255,255,255,0.8);
-      padding: 2px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-    }
+```
+/* ═══════════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════════ */
+.site-header {
+  background: var(--accent);
+  color: #fff;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--gold);
+}
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 60px;
+}
+.logo-block { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--gold);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.logo-text { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: #fff; }
+.logo-text span { color: var(--gold); }
+.header-badge {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.8);
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
 
-    /* NAV */
-    .main-nav {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .main-nav::-webkit-scrollbar { display: none; }
-    .nav-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      gap: 0;
-    }
-    .nav-tab {
-      padding: 14px 18px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-2);
-      border: none;
-      background: transparent;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-      transition: all var(--transition);
-      letter-spacing: 0.02em;
-    }
-    .nav-tab:hover { color: var(--accent); }
-    .nav-tab.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
+/* NAV */
+.main-nav {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.main-nav::-webkit-scrollbar { display: none; }
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+.nav-tab {
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-2);
+  border: none;
+  background: transparent;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all var(--transition);
+  letter-spacing: 0.02em;
+}
+.nav-tab:hover { color: var(--accent); }
+.nav-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
 
-    /* MAIN CONTENT */
-    .main-content {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 32px 24px 64px;
-    }
+/* MAIN CONTENT */
+.main-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
 
-    /* PANELS */
-    .panel { display: none; animation: fadeIn 0.3s ease; }
-    .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+/* PANELS */
+.panel { display: none; animation: fadeIn 0.3s ease; }
+.panel.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ═══════════════════════════════════════════
-       CARDS & GRID
-    ═══════════════════════════════════════════ */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-    .card-sm { padding: 16px; }
-    .card-title {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-    .card-sub {
-      font-size: 0.8rem;
-      color: var(--text-3);
-      margin-bottom: 4px;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
+/* ═══════════════════════════════════════════
+   CARDS & GRID
+═══════════════════════════════════════════ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.card-sm { padding: 16px; }
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.card-sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .grid-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.grid-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
 
-    @media (max-width: 768px) {
-      .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr 1fr; }
-      .main-content { padding: 20px 16px 48px; }
-    }
-    @media (max-width: 480px) {
-      .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr; }
-      .nav-tab { padding: 12px 12px; font-size: 0.78rem; }
-    }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr 1fr; }
+  .main-content { padding: 20px 16px 48px; }
+}
+@media (max-width: 480px) {
+  .grid-2, .grid-3, .grid-4, .grid-kpi { grid-template-columns: 1fr; }
+  .nav-tab { padding: 12px 12px; font-size: 0.78rem; }
+}
 
-    /* KPI CARD */
-    .kpi-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--accent);
-    }
-    .kpi-card.red::before { background: var(--red); }
-    .kpi-card.amber::before { background: var(--amber); }
-    .kpi-card.green::before { background: var(--green); }
-    .kpi-label {
-      font-size: 0.75rem;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-3);
-      margin-bottom: 8px;
-    }
-    .kpi-value {
-      font-family: var(--mono);
-      font-size: 1.9rem;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .kpi-change {
-      font-size: 0.78rem;
-      font-family: var(--mono);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .kpi-change.up { color: var(--red); }
-    .kpi-change.down { color: var(--green); }
-    .kpi-change.flat { color: var(--text-3); }
+/* KPI CARD */
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+.kpi-card.red::before { background: var(--red); }
+.kpi-card.amber::before { background: var(--amber); }
+.kpi-card.green::before { background: var(--green); }
+.kpi-label {
+  font-size: 0.75rem;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: var(--mono);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.kpi-change {
+  font-size: 0.78rem;
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.kpi-change.up { color: var(--red); }
+.kpi-change.down { color: var(--green); }
+.kpi-change.flat { color: var(--text-3); }
 
-    /* SECTION HEADER */
-    .section-header {
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid var(--border);
-    }
-    .section-header h2 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .section-header p {
-      color: var(--text-2);
-      font-size: 0.9rem;
-      max-width: 640px;
-    }
+/* SECTION HEADER */
+.section-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.section-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.section-header p {
+  color: var(--text-2);
+  font-size: 0.9rem;
+  max-width: 640px;
+}
 
-    /* TABLES */
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
-    th {
-      text-align: left;
-      padding: 10px 14px;
-      font-size: 0.72rem;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--text-3);
-      border-bottom: 2px solid var(--border);
-      white-space: nowrap;
-      background: var(--bg-subtle);
-    }
-    th[onclick] { cursor: pointer; user-select: none; }
-    th[onclick]:hover { color: var(--accent); background: #e8e4dc; }
-    td {
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-2);
-    }
-    tr:hover td { background: var(--bg-subtle); }
-    td.num {
-      font-family: var(--mono);
-      font-weight: 600;
-      color: var(--text);
-      text-align: right;
-    }
-    td.rank {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--text-3);
-      width: 40px;
-    }
+/* TABLES */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-3);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+  background: var(--bg-subtle);
+}
+th[onclick] { cursor: pointer; user-select: none; }
+th[onclick]:hover { color: var(--accent); background: #eef2f7; }
+td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-2);
+}
+tr:hover td { background: var(--bg-subtle); }
+td.num {
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+td.rank {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-3);
+  width: 40px;
+}
 
-    /* BADGES */
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-family: var(--mono);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-    .badge-red    { background: var(--red-bg); color: var(--red); }
-    .badge-amber  { background: var(--amber-bg); color: var(--amber); }
-    .badge-green  { background: var(--green-bg); color: var(--green); }
-    .badge-blue   { background: #e6eef8; color: var(--accent); }
-    .badge-grey   { background: var(--bg-subtle); color: var(--text-3); }
+/* BADGES */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.badge-red    { background: var(--red-bg); color: var(--red); }
+.badge-amber  { background: var(--amber-bg); color: var(--amber); }
+.badge-green  { background: var(--green-bg); color: var(--green); }
+.badge-blue   { background: #e6eef8; color: var(--accent); }
+.badge-grey   { background: var(--bg-subtle); color: var(--text-3); }
 
-    /* TRAFFIC LIGHT */
-    .tl-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-    }
-    .tl-green  { background: var(--green); }
-    .tl-amber  { background: #e8a020; }
-    .tl-red    { background: var(--red); }
+/* TRAFFIC LIGHT */
+.tl-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+.tl-green  { background: var(--green); }
+.tl-amber  { background: #e8a020; }
+.tl-red    { background: var(--red); }
 
-    /* TREND ARROW */
-    .trend-up   { color: var(--red); }
-    .trend-down { color: var(--green); }
-    .trend-flat { color: var(--text-3); }
+/* TREND ARROW */
+.trend-up   { color: var(--red); }
+.trend-down { color: var(--green); }
+.trend-flat { color: var(--text-3); }
 
-    /* PROGRESS BAR */
-    .progress-bar-wrap { width: 100%; background: var(--bg-subtle); border-radius: 3px; height: 6px; margin-top: 6px; }
-    .progress-bar { height: 6px; border-radius: 3px; background: var(--accent-2); transition: width 0.6s ease; }
-    .progress-bar.red { background: var(--red); }
-    .progress-bar.amber { background: var(--amber); }
-    .progress-bar.green { background: var(--green); }
+/* PROGRESS BAR */
+.progress-bar-wrap { width: 100%; background: var(--bg-subtle); border-radius: 3px; height: 6px; margin-top: 6px; }
+.progress-bar { height: 6px; border-radius: 3px; background: var(--accent-2); transition: width 0.6s ease; }
+.progress-bar.red { background: var(--red); }
+.progress-bar.amber { background: var(--amber); }
+.progress-bar.green { background: var(--green); }
 
-    /* SEARCH */
-    .search-wrap { position: relative; max-width: 600px; margin-bottom: 24px; }
-    .search-input {
-      width: 100%;
-      padding: 12px 48px 12px 16px;
-      font-family: var(--sans);
-      font-size: 0.95rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-card);
-      color: var(--text);
-      transition: border-color var(--transition);
-      outline: none;
-    }
-    .search-input:focus { border-color: var(--accent-2); }
-    .search-input::placeholder { color: var(--text-3); }
-    .search-icon {
-      position: absolute;
-      right: 14px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-3);
-      font-size: 1.1rem;
-      pointer-events: none;
-    }
+/* SEARCH */
+.search-wrap { position: relative; max-width: 600px; margin-bottom: 24px; }
+.search-input {
+  width: 100%;
+  padding: 12px 48px 12px 16px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text);
+  transition: border-color var(--transition);
+  outline: none;
+}
+.search-input:focus { border-color: var(--accent-2); }
+.search-input::placeholder { color: var(--text-3); }
+.search-icon {
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  font-size: 1.1rem;
+  pointer-events: none;
+}
 
-    /* SEARCH STATUS */
-    .search-status {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--text-3);
-      margin-bottom: 12px;
-      min-height: 20px;
-      transition: opacity 0.2s;
-    }
-    .search-status.loading { color: var(--accent-2); }
+/* SEARCH STATUS */
+.search-status {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-3);
+  margin-bottom: 12px;
+  min-height: 20px;
+  transition: opacity 0.2s;
+}
+.search-status.loading { color: var(--accent-2); }
 
-    /* STATION RESULT */
-    .station-result { display: none; }
-    .station-result.visible { display: block; animation: fadeIn 0.3s ease; }
-    .station-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-    .station-name { font-size: 1.6rem; font-weight: 700; }
-    .station-meta { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
+/* STATION RESULT */
+.station-result { display: none; }
+.station-result.visible { display: block; animation: fadeIn 0.3s ease; }
+.station-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.station-name { font-size: 1.6rem; font-weight: 700; }
+.station-meta { font-size: 0.85rem; color: var(--text-3); margin-top: 4px; }
 
-    /* MAP PANEL */
-    #crime-map { z-index: 1; }
-    .leaflet-container { font-family: var(--sans); }
-    .leaflet-popup-content-wrapper {
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      font-family: var(--sans);
-    }
-    .leaflet-tooltip {
-      font-family: var(--sans);
-      font-size: 0.82rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-    }
-    @media (max-width: 768px) {
-      #crime-map { height: 360px !important; }
-    }
-    /* SCORE GAUGE */
-    .score-gauge {
-      text-align: center;
-      min-width: 100px;
-    }
-    .score-number {
-      font-family: var(--mono);
-      font-size: 2.4rem;
-      font-weight: 600;
-      line-height: 1;
-    }
-    .score-label { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+/* MAP PANEL */
+#crime-map { z-index: 1; }
+.leaflet-container { font-family: var(--sans); }
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--sans);
+}
+.leaflet-tooltip {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 768px) {
+  #crime-map { height: 360px !important; }
+}
+/* SCORE GAUGE */
+.score-gauge {
+  text-align: center;
+  min-width: 100px;
+}
+.score-number {
+  font-family: var(--mono);
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.score-label { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
 
-    /* CHART CONTAINERS */
-    .chart-wrap { position: relative; width: 100%; }
-    .chart-wrap canvas { max-width: 100%; }
+/* CHART CONTAINERS */
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap canvas { max-width: 100%; }
 
-    /* PROVINCE BARS */
-    .prov-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .prov-row:last-child { border-bottom: none; }
-    .prov-name { width: 160px; font-size: 0.88rem; font-weight: 500; flex-shrink: 0; }
-    .prov-bar-wrap { flex: 1; }
-    .prov-value { width: 80px; text-align: right; font-family: var(--mono); font-size: 0.85rem; font-weight: 600; flex-shrink: 0; }
-    .prov-change { width: 60px; text-align: right; font-family: var(--mono); font-size: 0.78rem; flex-shrink: 0; }
+/* PROVINCE BARS */
+.prov-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.prov-row:last-child { border-bottom: none; }
+.prov-name { width: 160px; font-size: 0.88rem; font-weight: 500; flex-shrink: 0; }
+.prov-bar-wrap { flex: 1; }
+.prov-value { width: 80px; text-align: right; font-family: var(--mono); font-size: 0.85rem; font-weight: 600; flex-shrink: 0; }
+.prov-change { width: 60px; text-align: right; font-family: var(--mono); font-size: 0.78rem; flex-shrink: 0; }
 
-    /* CATEGORY PILLS */
-    .cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-    .cat-pill {
-      padding: 6px 14px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      background: var(--bg-card);
-      color: var(--text-2);
-      transition: all var(--transition);
-    }
-    .cat-pill:hover { border-color: var(--accent-2); color: var(--accent-2); }
-    .cat-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* CATEGORY PILLS */
+.cat-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.cat-pill {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: var(--bg-card);
+  color: var(--text-2);
+  transition: all var(--transition);
+}
+.cat-pill:hover { border-color: var(--accent-2); color: var(--accent-2); }
+.cat-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* FILTER BAR */
-    .filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-    .filter-select {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      background: var(--bg-card);
-      color: var(--text);
-      outline: none;
-      cursor: pointer;
-    }
-    .filter-select:focus { border-color: var(--accent-2); }
+/* FILTER BAR */
+.filter-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  background: var(--bg-card);
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+}
+.filter-select:focus { border-color: var(--accent-2); }
 
-    /* ABOUT */
-    .about-section { max-width: 760px; }
-    .about-section h3 { font-size: 1.2rem; margin: 24px 0 10px; color: var(--text); }
-    .about-section p { color: var(--text-2); margin-bottom: 12px; line-height: 1.7; }
-    .about-section ul { padding-left: 20px; color: var(--text-2); line-height: 1.9; }
-    .disclaimer-box {
-      background: var(--amber-bg);
-      border: 1px solid #f0c070;
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin: 20px 0;
-      font-size: 0.88rem;
-      color: var(--amber);
-    }
-    .disclaimer-box strong { display: block; margin-bottom: 4px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
+/* ABOUT */
+.about-section { max-width: 760px; }
+.about-section h3 { font-size: 1.2rem; margin: 24px 0 10px; color: var(--text); }
+.about-section p { color: var(--text-2); margin-bottom: 12px; line-height: 1.7; }
+.about-section ul { padding-left: 20px; color: var(--text-2); line-height: 1.9; }
+.disclaimer-box {
+  background: var(--amber-bg);
+  border: 1px solid #f0c070;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 0.88rem;
+  color: var(--amber);
+}
+.disclaimer-box strong { display: block; margin-bottom: 4px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; }
 
-    /* FOOTER */
-    .site-footer {
-      background: var(--accent);
-      color: rgba(255,255,255,0.7);
-      padding: 20px 24px;
-      text-align: center;
-      font-size: 0.82rem;
-    }
-    .site-footer a { color: var(--gold); }
+/* FOOTER */
+.site-footer {
+  background: var(--accent);
+  color: rgba(255,255,255,0.7);
+  padding: 20px 24px;
+  text-align: center;
+  font-size: 0.82rem;
+}
+.site-footer a { color: var(--gold); }
 
-    /* SEARCH RESULTS LIST */
-    .search-results {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-card);
-      max-height: 280px;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      position: absolute;
-      top: 100%;
-      left: 0; right: 0;
-      z-index: 50;
-      display: none;
-    }
-    .search-results.open { display: block; }
-    .search-result-item {
-      padding: 10px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .search-result-item:last-child { border-bottom: none; }
-    .search-result-item:hover { background: var(--bg-subtle); }
-    .sri-name { font-weight: 500; font-size: 0.9rem; }
-    .sri-meta { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
-    .sri-score { font-family: var(--mono); font-size: 0.78rem; }
+/* SEARCH RESULTS LIST */
+.search-results {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  position: absolute;
+  top: 100%;
+  left: 0; right: 0;
+  z-index: 50;
+  display: none;
+}
+.search-results.open { display: block; }
+.search-result-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--bg-subtle); }
+.sri-name { font-weight: 500; font-size: 0.9rem; }
+.sri-meta { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
+.sri-score { font-family: var(--mono); font-size: 0.78rem; }
 
-    /* OVERVIEW STAT ROW */
-    .stat-highlight {
-      background: linear-gradient(135deg, var(--accent) 0%, #1e4a7a 100%);
-      color: #fff;
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-    .stat-highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .sh-item-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 6px; }
-    .sh-item-value { font-family: var(--mono); font-size: 2rem; font-weight: 600; line-height: 1; }
-    .sh-item-sub { font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }
-    @media (max-width: 480px) { .stat-highlight-grid { grid-template-columns: 1fr; gap: 16px; } }
+/* OVERVIEW STAT ROW */
+.stat-highlight {
+  background: linear-gradient(135deg, var(--accent) 0%, #1e4a7a 100%);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.stat-highlight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.sh-item-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.65; margin-bottom: 6px; }
+.sh-item-value { font-family: var(--mono); font-size: 2rem; font-weight: 600; line-height: 1; }
+.sh-item-sub { font-size: 0.8rem; opacity: 0.7; margin-top: 4px; }
+@media (max-width: 480px) { .stat-highlight-grid { grid-template-columns: 1fr; gap: 16px; } }
 
-    /* MINI SPARKLINE */
-    .sparkline-row { display: flex; align-items: center; gap: 8px; }
-    .sparkline-svg { overflow: visible; }
+/* MINI SPARKLINE */
+.sparkline-row { display: flex; align-items: center; gap: 8px; }
+.sparkline-svg { overflow: visible; }
 
-    /* TOP STATION CARD */
-    .top-station-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .top-station-item:last-child { border-bottom: none; }
-    .tsi-rank { font-family: var(--mono); font-size: 0.8rem; color: var(--text-3); width: 24px; flex-shrink: 0; }
-    .tsi-name { flex: 1; font-weight: 500; font-size: 0.88rem; }
-    .tsi-prov { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
-    .tsi-count { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: var(--text); }
+/* TOP STATION CARD */
+.top-station-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.top-station-item:last-child { border-bottom: none; }
+.tsi-rank { font-family: var(--mono); font-size: 0.8rem; color: var(--text-3); width: 24px; flex-shrink: 0; }
+.tsi-name { flex: 1; font-weight: 500; font-size: 0.88rem; }
+.tsi-prov { font-size: 0.75rem; color: var(--text-3); font-family: var(--mono); }
+.tsi-count { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; color: var(--text); }
 
-    /* LOADING DOTS */
-    .dots span {
-      animation: blink 1.2s infinite;
-    }
-    .dots span:nth-child(2) { animation-delay: 0.2s; }
-    .dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes blink { 0%,100%{opacity:0.2} 50%{opacity:1} }
+/* LOADING DOTS */
+.dots span {
+  animation: blink 1.2s infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,100%{opacity:0.2} 50%{opacity:1} }
 
-    /* YEAR SELECTOR */
-    .year-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
-    .year-tab {
-      padding: 5px 12px;
-      font-size: 0.78rem;
-      font-family: var(--mono);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      background: var(--bg-card);
-      color: var(--text-2);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-    .year-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+/* YEAR SELECTOR */
+.year-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+.year-tab {
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-family: var(--mono);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg-card);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.year-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* METHODOLOGY TABLE */
-    .meth-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 12px; }
-    .meth-table th { background: var(--bg-subtle); padding: 8px 12px; text-align: left; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); border-bottom: 2px solid var(--border); }
-    .meth-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); }
+/* METHODOLOGY TABLE */
+.meth-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; margin-top: 12px; }
+.meth-table th { background: var(--bg-subtle); padding: 8px 12px; text-align: left; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); border-bottom: 2px solid var(--border); }
+.meth-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); }
 
-    /* SCORE BREAKDOWN */
-    .score-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
-    .sb-item { background: var(--bg-subtle); border-radius: var(--radius); padding: 12px; text-align: center; }
-    .sb-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
-    .sb-value { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; }
-    @media (max-width: 480px) { .score-breakdown { grid-template-columns: 1fr; } }
+/* SCORE BREAKDOWN */
+.score-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+.sb-item { background: var(--bg-subtle); border-radius: var(--radius); padding: 12px; text-align: center; }
+.sb-label { font-size: 0.72rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 6px; }
+.sb-value { font-family: var(--mono); font-size: 1.3rem; font-weight: 600; }
+@media (max-width: 480px) { .score-breakdown { grid-template-columns: 1fr; } }
+```
+
   </style>
 </head>
 <body>
 
 <!-- HEADER -->
+
 <header class="site-header">
   <div class="header-inner">
     <div class="logo-block">
@@ -595,6 +805,7 @@
 </header>
 
 <!-- NAV -->
+
 <nav class="main-nav">
   <div class="nav-inner">
     <button class="nav-tab active" data-panel="overview">Overview</button>
@@ -608,461 +819,528 @@
 </nav>
 
 <!-- MAIN -->
+
 <main class="main-content">
 
   <!-- ══════════════════════════════════
        OVERVIEW PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-overview" class="panel active">
     <div class="section-header">
       <h2>National Crime Overview</h2>
       <p>South Africa crime statistics — 2023/24 annual year, with 2024/25 quarterly updates. Anchored to official SAPS published figures.</p>
     </div>
 
-    <!-- HERO STATS -->
-    <div class="stat-highlight">
-      <div class="stat-highlight-grid">
-        <div>
-          <div class="sh-item-label">Murders 2023/24 (annual)</div>
-          <div class="sh-item-value">27,621</div>
-          <div class="sh-item-sub">↓ 10.6% to 24,692 in 2024/25</div>
-        </div>
-        <div>
-          <div class="sh-item-label">Murder Rate per 100,000</div>
-          <div class="sh-item-value">44.9</div>
-          <div class="sh-item-sub">2023/24 · improving in 2024/25</div>
-        </div>
-        <div>
-          <div class="sh-item-label">Police Stations</div>
-          <div class="sh-item-value">1,163</div>
-          <div class="sh-item-sub">incl. satellite stations & ports</div>
-        </div>
-      </div>
+```
+<!-- HERO STATS -->
+<div class="stat-highlight">
+  <div class="stat-highlight-grid">
+    <div>
+      <div class="sh-item-label">Murders 2023/24 (annual)</div>
+      <div class="sh-item-value">27,621</div>
+      <div class="sh-item-sub">↓ 10.6% to 24,692 in 2024/25</div>
     </div>
+    <div>
+      <div class="sh-item-label">Murder Rate per 100,000</div>
+      <div class="sh-item-value">44.9</div>
+      <div class="sh-item-sub">2023/24 · improving in 2024/25</div>
+    </div>
+    <div>
+      <div class="sh-item-label">Police Stations</div>
+      <div class="sh-item-value">1,163</div>
+      <div class="sh-item-sub">incl. satellite stations & ports</div>
+    </div>
+  </div>
+</div>
 
-    <!-- LATEST DATA UPDATE STRIP -->
-    <div style="background:var(--green-bg);border:1px solid #b8dfc8;border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-      <span style="font-family:var(--mono);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--green);">✓ Latest Data</span>
-      <span style="font-size:0.82rem;color:var(--text-2);">Q3 2024/25 (Oct–Dec 2024): Murder ↓9.8% · Property crimes ↓13.5% · Carjacking ↓19.5% · Commercial crime ↑8.9% · Drug arrests ↑13.3%</span>
-    </div>
+<!-- LATEST DATA UPDATE STRIP -->
+<div style="background:var(--green-bg);border:1px solid #b8dfc8;border-radius:var(--radius);padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+  <span style="font-family:var(--mono);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--green);">✓ Latest Data</span>
+  <span style="font-size:0.82rem;color:var(--text-2);">Q3 2024/25 (Oct–Dec 2024): Murder ↓9.8% · Property crimes ↓13.5% · Carjacking ↓19.5% · Commercial crime ↑8.9% · Drug arrests ↑13.3%</span>
+</div>
 
-    <!-- KPI ROW -->
-    <div class="grid-kpi">
-      <div class="kpi-card red">
-        <div class="kpi-label">Contact Crimes 2023/24</div>
-        <div class="kpi-value">736K</div>
-        <div class="kpi-change up">▲ 12.5% vs 2022/23</div>
-      </div>
-      <div class="kpi-card amber">
-        <div class="kpi-label">Property Crimes 2023/24</div>
-        <div class="kpi-value">376K</div>
-        <div class="kpi-change down">▼ 4.2% (10-yr downtrend)</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Other Serious Crimes 2023/24</div>
-        <div class="kpi-value">487K</div>
-        <div class="kpi-change up">▲ 11.2% vs 2022/23</div>
-      </div>
-      <div class="kpi-card green">
-        <div class="kpi-label">Murder 2024/25 Annual</div>
-        <div class="kpi-value">24,692</div>
-        <div class="kpi-change down">▼ 10.6% vs 2023/24</div>
-      </div>
-    </div>
+<!-- KPI ROW -->
+<div class="grid-kpi">
+  <div class="kpi-card red">
+    <div class="kpi-label">Contact Crimes 2023/24</div>
+    <div class="kpi-value">736K</div>
+    <div class="kpi-change up">▲ 12.5% vs 2022/23</div>
+  </div>
+  <div class="kpi-card amber">
+    <div class="kpi-label">Property Crimes 2023/24</div>
+    <div class="kpi-value">376K</div>
+    <div class="kpi-change down">▼ 4.2% (10-yr downtrend)</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Other Serious Crimes 2023/24</div>
+    <div class="kpi-value">487K</div>
+    <div class="kpi-change up">▲ 11.2% vs 2022/23</div>
+  </div>
+  <div class="kpi-card green">
+    <div class="kpi-label">Murder 2024/25 Annual</div>
+    <div class="kpi-value">24,692</div>
+    <div class="kpi-change down">▼ 10.6% vs 2023/24</div>
+  </div>
+</div>
 
-    <!-- CHARTS ROW -->
-    <div class="grid-2" style="margin-bottom:24px;">
-      <div class="card">
-        <div class="card-title">Crime Category Breakdown — 2023/24</div>
-        <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-donut"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">21 Priority Crimes — 5-Year Trend (2019–2024)</div>
-        <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-trend"></canvas></div>
-      </div>
-    </div>
+<!-- CHARTS ROW -->
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-title">Crime Category Breakdown — 2023/24</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-donut"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">21 Priority Crimes — 5-Year Trend (2019–2024)</div>
+    <div class="chart-wrap" style="height:260px;"><canvas id="chart-overview-trend"></canvas></div>
+  </div>
+</div>
 
-    <!-- KEY REAL FIGURES TABLE — INTERACTIVE -->
-    <div class="card" style="margin-bottom:24px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
-        <div class="card-title" style="margin-bottom:0;">Key Crime Figures — 2023/24 Annual (SAPS Official)</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-          <select class="filter-select" id="kst-category" onchange="renderKeyStatsTable()" style="font-size:0.8rem;padding:6px 10px;">
-            <option value="">All Categories</option>
-            <option value="Contact">Contact Crimes</option>
-            <option value="Property">Property Crimes</option>
-            <option value="Other">Other Serious</option>
-            <option value="Detected">Police-Detected</option>
-          </select>
-          <select class="filter-select" id="kst-sort" onchange="renderKeyStatsTable()" style="font-size:0.8rem;padding:6px 10px;">
-            <option value="count2324-desc">↓ 2023/24 Count</option>
-            <option value="count2324-asc">↑ 2023/24 Count</option>
-            <option value="pct100k-desc">↓ Rate per 100k</option>
-            <option value="pct100k-asc">↑ Rate per 100k</option>
-            <option value="chg-desc">↓ YoY Change</option>
-            <option value="chg-asc">↑ YoY Change (improving)</option>
-            <option value="name-asc">A–Z Crime Name</option>
-          </select>
-          <input type="text" id="kst-search" placeholder="Filter crimes…" oninput="renderKeyStatsTable()"
-            style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--sans);font-size:0.8rem;background:var(--bg-card);color:var(--text);outline:none;width:140px;" />
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table id="overview-key-stats"></table>
-      </div>
-      <div id="kst-count" style="font-family:var(--mono);font-size:0.72rem;color:var(--text-3);margin-top:8px;"></div>
+<!-- KEY REAL FIGURES TABLE — INTERACTIVE -->
+<div class="card" style="margin-bottom:24px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+    <div class="card-title" style="margin-bottom:0;">Key Crime Figures — 2023/24 Annual (SAPS Official)</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <select class="filter-select" id="kst-category" onchange="renderKeyStatsTable()" style="font-size:0.8rem;padding:6px 10px;">
+        <option value="">All Categories</option>
+        <option value="Contact">Contact Crimes</option>
+        <option value="Property">Property Crimes</option>
+        <option value="Other">Other Serious</option>
+        <option value="Detected">Police-Detected</option>
+      </select>
+      <select class="filter-select" id="kst-sort" onchange="renderKeyStatsTable()" style="font-size:0.8rem;padding:6px 10px;">
+        <option value="count2324-desc">↓ 2023/24 Count</option>
+        <option value="count2324-asc">↑ 2023/24 Count</option>
+        <option value="pct100k-desc">↓ Rate per 100k</option>
+        <option value="pct100k-asc">↑ Rate per 100k</option>
+        <option value="chg-desc">↓ YoY Change</option>
+        <option value="chg-asc">↑ YoY Change (improving)</option>
+        <option value="name-asc">A–Z Crime Name</option>
+      </select>
+      <input type="text" id="kst-search" placeholder="Filter crimes…" oninput="renderKeyStatsTable()"
+        style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);font-family:var(--sans);font-size:0.8rem;background:var(--bg-card);color:var(--text);outline:none;width:140px;" />
     </div>
+  </div>
+  <div class="table-wrap">
+    <table id="overview-key-stats"></table>
+  </div>
+  <div id="kst-count" style="font-family:var(--mono);font-size:0.72rem;color:var(--text-3);margin-top:8px;"></div>
+</div>
 
-    <!-- TOP 10 STATIONS + PROVINCES -->
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-title">Top 10 Highest-Crime Stations</div>
-        <div id="overview-top-stations"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Provincial Crime Rates (per 100k)</div>
-        <div id="overview-provinces"></div>
-      </div>
-    </div>
+<!-- TOP 10 STATIONS + PROVINCES -->
+<div class="grid-2">
+  <div class="card">
+    <div class="card-title">Top 10 Highest-Crime Stations</div>
+    <div id="overview-top-stations"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Provincial Crime Rates (per 100k)</div>
+    <div id="overview-provinces"></div>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        STATION LOOKUP PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-lookup" class="panel">
     <div class="section-header">
       <h2>Station Lookup</h2>
       <p>Search any of South Africa's 1,163 police stations by name or province. View crime totals, 5-year trend, and your Community Safety Score.</p>
     </div>
 
-    <div class="filter-bar">
-      <select class="filter-select" id="lookup-province-filter" onchange="filterLookup()">
-        <option value="">All Provinces</option>
-        <option value="WC">Western Cape</option>
-        <option value="GP">Gauteng</option>
-        <option value="KZN">KwaZulu-Natal</option>
-        <option value="EC">Eastern Cape</option>
-        <option value="LP">Limpopo</option>
-        <option value="MP">Mpumalanga</option>
-        <option value="NW">North West</option>
-        <option value="FS">Free State</option>
-        <option value="NC">Northern Cape</option>
-      </select>
-    </div>
+```
+<div class="filter-bar">
+  <select class="filter-select" id="lookup-province-filter" onchange="filterLookup()">
+    <option value="">All Provinces</option>
+    <option value="WC">Western Cape</option>
+    <option value="GP">Gauteng</option>
+    <option value="KZN">KwaZulu-Natal</option>
+    <option value="EC">Eastern Cape</option>
+    <option value="LP">Limpopo</option>
+    <option value="MP">Mpumalanga</option>
+    <option value="NW">North West</option>
+    <option value="FS">Free State</option>
+    <option value="NC">Northern Cape</option>
+  </select>
+</div>
 
-    <div class="search-wrap">
-      <input type="text" class="search-input" id="station-search" placeholder="Search station name…" autocomplete="off" oninput="handleSearchInput(this.value)" />
-      <span class="search-icon">🔍</span>
-      <div class="search-results" id="search-dropdown"></div>
-    </div>
-    <div class="search-status" id="search-status">Enter a station name to search 1,163 stations.</div>
+<div class="search-wrap">
+  <input type="text" class="search-input" id="station-search" placeholder="Search station name…" autocomplete="off" oninput="handleSearchInput(this.value)" />
+  <span class="search-icon">🔍</span>
+  <div class="search-results" id="search-dropdown"></div>
+</div>
+<div class="search-status" id="search-status">Enter a station name to search 1,163 stations.</div>
 
-    <div class="station-result" id="station-result">
-      <div class="card">
-        <div class="station-header">
-          <div>
-            <div class="card-sub" id="sr-province"></div>
-            <div class="station-name" id="sr-name"></div>
-            <div class="station-meta" id="sr-meta"></div>
-          </div>
-          <div class="score-gauge">
-            <div class="card-sub">Safety Score</div>
-            <div class="score-number" id="sr-score-num"></div>
-            <div class="score-label" id="sr-score-label"></div>
-          </div>
-        </div>
-
-        <div class="grid-4" style="margin-bottom:20px;" id="sr-kpis"></div>
-
-        <div class="grid-2" style="margin-bottom:20px;">
-          <div>
-            <div class="card-title">5-Year Crime Trend</div>
-            <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-trend"></canvas></div>
-          </div>
-          <div>
-            <div class="card-title">Category Mix</div>
-            <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-mix"></canvas></div>
-          </div>
-        </div>
-
-        <div class="card-title">Community Safety Score Breakdown</div>
-        <div class="score-breakdown" id="sr-score-breakdown"></div>
+<div class="station-result" id="station-result">
+  <div class="card">
+    <div class="station-header">
+      <div>
+        <div class="card-sub" id="sr-province"></div>
+        <div class="station-name" id="sr-name"></div>
+        <div class="station-meta" id="sr-meta"></div>
+      </div>
+      <div class="score-gauge">
+        <div class="card-sub">Safety Score</div>
+        <div class="score-number" id="sr-score-num"></div>
+        <div class="score-label" id="sr-score-label"></div>
       </div>
     </div>
+
+    <div class="grid-4" style="margin-bottom:20px;" id="sr-kpis"></div>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div>
+        <div class="card-title">5-Year Crime Trend</div>
+        <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-trend"></canvas></div>
+      </div>
+      <div>
+        <div class="card-title">Category Mix</div>
+        <div class="chart-wrap" style="height:200px;"><canvas id="chart-station-mix"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card-title">Community Safety Score Breakdown</div>
+    <div class="score-breakdown" id="sr-score-breakdown"></div>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        PROVINCES PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-provinces" class="panel">
     <div class="section-header">
       <h2>Provincial Overview</h2>
       <p>All 9 provinces ranked by crime rate per 100,000 population with year-on-year change indicators.</p>
     </div>
 
-    <div class="grid-2" style="margin-bottom:24px;">
-      <div class="card">
-        <div class="card-title">Crime Rate per 100,000 — All Provinces</div>
-        <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-bar"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Total Reported Crimes by Province</div>
-        <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-abs"></canvas></div>
-      </div>
-    </div>
+```
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-title">Crime Rate per 100,000 — All Provinces</div>
+    <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-bar"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Total Reported Crimes by Province</div>
+    <div class="chart-wrap" style="height:320px;"><canvas id="chart-prov-abs"></canvas></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-title">Provincial Statistics Table — 2023/24</div>
-      <div class="table-wrap">
-        <table id="prov-table"></table>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-title">Provincial Statistics Table — 2023/24</div>
+  <div class="table-wrap">
+    <table id="prov-table"></table>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        CRIME CATEGORIES PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-categories" class="panel">
     <div class="section-header">
       <h2>Crime Categories</h2>
       <p>Breakdown by the 6 SAPS crime classification categories.</p>
     </div>
 
-    <div class="cat-pills" id="cat-pills"></div>
-    <div id="cat-detail"></div>
+```
+<div class="cat-pills" id="cat-pills"></div>
+<div id="cat-detail"></div>
 
-    <div class="grid-2" style="margin-top:24px;">
-      <div class="card">
-        <div class="card-title">Category Comparison — 2023/24</div>
-        <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-compare"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">5-Year Category Trends</div>
-        <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-trends"></canvas></div>
-      </div>
-    </div>
+<div class="grid-2" style="margin-top:24px;">
+  <div class="card">
+    <div class="card-title">Category Comparison — 2023/24</div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-compare"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">5-Year Category Trends</div>
+    <div class="chart-wrap" style="height:300px;"><canvas id="chart-cat-trends"></canvas></div>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        TRENDS PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-trends" class="panel">
     <div class="section-header">
       <h2>Trend Analysis</h2>
       <p>Quarterly crime trends 2019/20–2023/24, showing the COVID-19 lockdown impact and recovery. Q3 2024/25 anchor: 411,600 community crimes (−5.0% YoY), murder 6,953 (−9.8% YoY).</p>
     </div>
 
-    <div class="card" style="margin-bottom:24px;">
-      <div class="card-title">Quarterly 21 Priority Crimes — 2019/20 to 2023/24</div>
-      <div class="chart-wrap" style="height:320px;"><canvas id="chart-trends-main"></canvas></div>
-    </div>
+```
+<div class="card" style="margin-bottom:24px;">
+  <div class="card-title">Quarterly 21 Priority Crimes — 2019/20 to 2023/24</div>
+  <div class="chart-wrap" style="height:320px;"><canvas id="chart-trends-main"></canvas></div>
+</div>
 
-    <div class="grid-2" style="margin-bottom:24px;">
-      <div class="card">
-        <div class="card-title">Contact Crimes Quarterly Trend</div>
-        <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-contact"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Property Crimes Quarterly Trend</div>
-        <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-property"></canvas></div>
-      </div>
-    </div>
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-title">Contact Crimes Quarterly Trend</div>
+    <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-contact"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Property Crimes Quarterly Trend</div>
+    <div class="chart-wrap" style="height:240px;"><canvas id="chart-trends-property"></canvas></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-title">Year-on-Year Change Summary</div>
-      <div class="table-wrap">
-        <table id="trends-table"></table>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-title">Year-on-Year Change Summary</div>
+  <div class="table-wrap">
+    <table id="trends-table"></table>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        HEAT MAP PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-heatmap" class="panel">
     <div class="section-header">
       <h2>Crime Heat Map</h2>
       <p>Station-level crime intensity across South Africa. Click any marker to drill into station details. Heat intensity reflects total annual crimes reported.</p>
     </div>
 
-    <div class="filter-bar" style="margin-bottom:12px;">
-      <select class="filter-select" id="map-province-filter" onchange="filterMapStations()">
-        <option value="">All Provinces</option>
-        <option value="WC">Western Cape</option>
-        <option value="GP">Gauteng</option>
-        <option value="KZN">KwaZulu-Natal</option>
-        <option value="EC">Eastern Cape</option>
-        <option value="LP">Limpopo</option>
-        <option value="MP">Mpumalanga</option>
-        <option value="NW">North West</option>
-        <option value="FS">Free State</option>
-        <option value="NC">Northern Cape</option>
-      </select>
-      <select class="filter-select" id="map-layer-toggle" onchange="toggleMapLayer()">
-        <option value="heat">Heat Map</option>
-        <option value="markers">Station Markers</option>
-        <option value="both">Both</option>
-      </select>
-      <select class="filter-select" id="map-crime-filter" onchange="filterMapStations()">
-        <option value="total">All Crimes (Total)</option>
-        <option value="contact">Contact Crimes</option>
-        <option value="murder">Murder</option>
-        <option value="property">Property Crimes</option>
-      </select>
-      <span id="map-station-count" style="font-family:var(--mono);font-size:0.78rem;color:var(--text-3);padding:8px 0;"></span>
-    </div>
+```
+<div class="filter-bar" style="margin-bottom:12px;">
+  <select class="filter-select" id="map-province-filter" onchange="filterMapStations()">
+    <option value="">All Provinces</option>
+    <option value="WC">Western Cape</option>
+    <option value="GP">Gauteng</option>
+    <option value="KZN">KwaZulu-Natal</option>
+    <option value="EC">Eastern Cape</option>
+    <option value="LP">Limpopo</option>
+    <option value="MP">Mpumalanga</option>
+    <option value="NW">North West</option>
+    <option value="FS">Free State</option>
+    <option value="NC">Northern Cape</option>
+  </select>
+  <select class="filter-select" id="map-layer-toggle" onchange="toggleMapLayer()">
+    <option value="heat">Heat Map</option>
+    <option value="markers">Station Markers</option>
+    <option value="both">Both</option>
+  </select>
+  <select class="filter-select" id="map-crime-filter" onchange="filterMapStations()">
+    <option value="total">All Crimes (Total)</option>
+    <option value="contact">Contact Crimes</option>
+    <option value="murder">Murder</option>
+    <option value="property">Property Crimes</option>
+  </select>
+  <span id="map-station-count" style="font-family:var(--mono);font-size:0.78rem;color:var(--text-3);padding:8px 0;"></span>
+</div>
 
-    <div style="position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);">
-      <div id="crime-map" style="height:520px;width:100%;background:#e8e4dc;"></div>
-      <!-- Legend -->
-      <div style="position:absolute;bottom:24px;left:12px;z-index:1000;background:white;border-radius:var(--radius);padding:10px 14px;box-shadow:var(--shadow-lg);border:1px solid var(--border);font-size:0.75rem;font-family:var(--mono);">
-        <div style="font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-2);">Crime Intensity</div>
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:40px;height:8px;background:linear-gradient(to right,#1a6b3c,#b8860b,#c0392b);border-radius:2px;display:inline-block;"></span></div>
-        <div style="display:flex;justify-content:space-between;gap:20px;color:var(--text-3);">
-          <span>Low</span><span>High</span>
-        </div>
-      </div>
+<div style="position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow);">
+  <div id="crime-map" style="height:520px;width:100%;background:#e8edf3;"></div>
+  <!-- Legend -->
+  <div style="position:absolute;bottom:24px;left:12px;z-index:1000;background:white;border-radius:var(--radius);padding:10px 14px;box-shadow:var(--shadow-lg);border:1px solid var(--border);font-size:0.75rem;font-family:var(--mono);">
+    <div style="font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-2);">Crime Intensity</div>
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="width:40px;height:8px;background:linear-gradient(to right,#1a6b3c,#b8860b,#c0392b);border-radius:2px;display:inline-block;"></span></div>
+    <div style="display:flex;justify-content:space-between;gap:20px;color:var(--text-3);">
+      <span>Low</span><span>High</span>
     </div>
+  </div>
+</div>
 
-    <!-- Station drill-down card -->
-    <div id="map-station-card" style="display:none;margin-top:20px;" class="card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-        <div>
-          <div class="card-sub" id="msc-province"></div>
-          <div style="font-family:var(--serif);font-size:1.4rem;font-weight:700;" id="msc-name"></div>
-          <div style="font-size:0.82rem;color:var(--text-3);margin-top:3px;" id="msc-coords"></div>
-        </div>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-          <div style="text-align:center;">
-            <div class="kpi-label">Safety Score</div>
-            <div class="score-number" id="msc-score" style="font-size:1.8rem;"></div>
-          </div>
-          <button onclick="document.getElementById('map-station-card').style.display='none'" style="border:1px solid var(--border);background:var(--bg-subtle);border-radius:var(--radius);padding:6px 12px;font-size:0.8rem;color:var(--text-2);">✕ Close</button>
-        </div>
-      </div>
-      <div class="grid-4" style="margin-top:16px;" id="msc-kpis"></div>
-      <div style="margin-top:16px;">
-        <div class="card-title" style="font-size:0.95rem;margin-bottom:12px;">5-Year Crime Trend</div>
-        <div class="chart-wrap" style="height:180px;"><canvas id="chart-map-trend"></canvas></div>
-      </div>
+<!-- Station drill-down card -->
+<div id="map-station-card" style="display:none;margin-top:20px;" class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div class="card-sub" id="msc-province"></div>
+      <div style="font-family:var(--serif);font-size:1.4rem;font-weight:700;" id="msc-name"></div>
+      <div style="font-size:0.82rem;color:var(--text-3);margin-top:3px;" id="msc-coords"></div>
     </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div class="kpi-label">Safety Score</div>
+        <div class="score-number" id="msc-score" style="font-size:1.8rem;"></div>
+      </div>
+      <button onclick="document.getElementById('map-station-card').style.display='none'" style="border:1px solid var(--border);background:var(--bg-subtle);border-radius:var(--radius);padding:6px 12px;font-size:0.8rem;color:var(--text-2);">✕ Close</button>
+    </div>
+  </div>
+  <div class="grid-4" style="margin-top:16px;" id="msc-kpis"></div>
+  <div style="margin-top:16px;">
+    <div class="card-title" style="font-size:0.95rem;margin-bottom:12px;">5-Year Crime Trend</div>
+    <div class="chart-wrap" style="height:180px;"><canvas id="chart-map-trend"></canvas></div>
+  </div>
+</div>
+```
+
   </section>
 
   <!-- ══════════════════════════════════
        ABOUT PANEL
   ══════════════════════════════════ -->
+
   <section id="panel-about" class="panel">
     <div class="section-header">
       <h2>About &amp; Methodology</h2>
     </div>
 
-    <div class="about-section">
+```
+<div class="about-section">
 
-      <div class="disclaimer-box">
-        <strong>📊 Data Sourcing Notice</strong>
-        Key figures on PoliceData ZA are drawn directly from <strong>official SAPS published statistics</strong>: the 2023/24 Annual Crime Report and quarterly presentations through 2024/25 Q3 (October–December 2024). All crime-by-crime counts in the Category Breakdown and Key Figures table are real published numbers. Station-level annual totals for non-top-30 stations are proportionally scaled from provincial totals using official station counts and are clearly estimated. Do not use for legal, policy, or law enforcement decisions without verifying against primary SAPS source documents.
-      </div>
+  <div class="disclaimer-box">
+    <strong>📊 Data Sourcing Notice</strong>
+    Key figures on PoliceData ZA are drawn directly from <strong>official SAPS published statistics</strong>: the 2023/24 Annual Crime Report and quarterly presentations through 2024/25 Q3 (October–December 2024). All crime-by-crime counts in the Category Breakdown and Key Figures table are real published numbers. Station-level annual totals for non-top-30 stations are proportionally scaled from provincial totals using official station counts and are clearly estimated. Do not use for legal, policy, or law enforcement decisions without verifying against primary SAPS source documents.
+  </div>
 
-      <h3>What is PoliceData ZA?</h3>
-      <p>PoliceData ZA is an open civic technology tool designed to make South African crime statistics accessible to ordinary citizens. SAPS publishes quarterly crime data as PDFs and Excel files — formats that are difficult to navigate without specialist knowledge. This dashboard transforms that data into searchable, visual, and comparable formats for use by journalists, community safety forums, ward councillors, neighbourhood watches, and researchers.</p>
+  <h3>What is PoliceData ZA?</h3>
+  <p>PoliceData ZA is an open civic technology tool designed to make South African crime statistics accessible to ordinary citizens. SAPS publishes quarterly crime data as PDFs and Excel files — formats that are difficult to navigate without specialist knowledge. This dashboard transforms that data into searchable, visual, and comparable formats for use by journalists, community safety forums, ward councillors, neighbourhood watches, and researchers.</p>
 
-      <h3>Primary Data Sources Used</h3>
-      <ul>
-        <li><strong>SAPS Q3 2024/25 Quarterly Presentation</strong> (October–December 2024) — source for all top-30 station rankings, provincial contributions, and per-category crime counts</li>
-        <li><strong>SAPS 2023/24 Annual Crime Report</strong> — source for full-year murder total (27,621), annual category breakdowns, and 5-year trend baselines</li>
-        <li><strong>SAPS Historical Annual Reports 2016–2023</strong> — sourced via policedata.online for trend modelling</li>
-        <li><strong>Stats SA mid-year population estimates (2021 series)</strong> — used for all per-100,000 crime rate calculations, per SAPS methodology</li>
-      </ul>
+  <h3>Primary Data Sources Used</h3>
+  <ul>
+    <li><strong>SAPS Q3 2024/25 Quarterly Presentation</strong> (October–December 2024) — source for all top-30 station rankings, provincial contributions, and per-category crime counts</li>
+    <li><strong>SAPS 2023/24 Annual Crime Report</strong> — source for full-year murder total (27,621), annual category breakdowns, and 5-year trend baselines</li>
+    <li><strong>SAPS Historical Annual Reports 2016–2023</strong> — sourced via policedata.online for trend modelling</li>
+    <li><strong>Stats SA mid-year population estimates (2021 series)</strong> — used for all per-100,000 crime rate calculations, per SAPS methodology</li>
+  </ul>
 
-      <h3>Key Verified Figures — 2023/24 Annual (SAPS Official)</h3>
-      <ul>
-        <li><strong>Murder:</strong> 27,621 (rate: 44.9 per 100,000)</li>
-        <li><strong>Attempted Murder:</strong> 35,977 (rate: 58.4 per 100,000)</li>
-        <li><strong>Rape:</strong> 42,569 (rate: 69.1 per 100,000)</li>
-        <li><strong>Sexual Assault:</strong> 7,418</li>
-        <li><strong>Assault GBH:</strong> 229,735 (rate: 373.0 per 100,000)</li>
-        <li><strong>Common Assault:</strong> 184,003 (rate: 298.9 per 100,000)</li>
-        <li><strong>Robbery with Aggravating Circumstances:</strong> 147,245</li>
-        <li><strong>Carjacking:</strong> 22,735 (63 per day — 78% increase over past decade)</li>
-        <li><strong>Truck Hijacking:</strong> 1,976 (54.5% increase over past decade)</li>
-        <li><strong>Kidnapping:</strong> 17,061 (264% increase over past decade; 51% in Gauteng)</li>
-        <li><strong>Common Robbery:</strong> 47,057</li>
-        <li><strong>Malicious Damage to Property:</strong> ~120,400</li>
-        <li><strong>Residential Burglary:</strong> ~152,006 (10-year downward trend)</li>
-        <li><strong>Non-Residential Burglary:</strong> ~61,800</li>
-        <li><strong>Vehicle Theft:</strong> ~38,020</li>
-        <li><strong>Theft from Vehicle:</strong> ~88,300</li>
-        <li><strong>Commercial Crime:</strong> ~117,200 (rising rapidly)</li>
-        <li><strong>Drug-Related Crime:</strong> ~163,000</li>
-        <li><strong>Murder 2024/25 annual:</strong> 24,692 (−10.6% vs 2023/24)</li>
-      </ul>
-      <h3>Key Verified Figures — 2024/25 Q3 (Oct–Dec 2024, SAPS Quarterly)</h3>
-      <ul>
-        <li><strong>17-community-reported serious crimes:</strong> 411,600 (−5.0% YoY)</li>
-        <li><strong>Murder:</strong> 6,953 (−9.8% YoY)</li>
-        <li><strong>Attempted Murder:</strong> 7,666 (−3.3% YoY)</li>
-        <li><strong>Assault GBH:</strong> 54,337 (+1.5% YoY)</li>
-        <li><strong>Common Assault:</strong> 56,486 (+6.6% YoY)</li>
-        <li><strong>Robbery (aggravating):</strong> 35,030 (−13.1% YoY)</li>
-        <li><strong>Carjacking:</strong> 4,807 (−19.5% YoY)</li>
-        <li><strong>Residential Burglary:</strong> 35,754 (−12.3% YoY)</li>
-        <li><strong>Non-Residential Burglary:</strong> 12,412 (−19.0% YoY)</li>
-        <li><strong>Vehicle Theft:</strong> 7,791 (−18.3% YoY)</li>
-        <li><strong>Commercial Crime:</strong> 36,446 (+8.9% YoY)</li>
-        <li><strong>Drug-Related Crime:</strong> 49,015 (+13.3% YoY)</li>
-        <li><strong>Provincial contributions:</strong> GP 26.5%, WC 18.3%, KZN 16.9%, EC 10.2%</li>
-        <li><strong>Top station overall:</strong> Cape Town Central (3,207) · Durban Central (2,185) · Mitchells Plain (1,948)</li>
-        <li><strong>Top contact crime station:</strong> Mfuleni (1,151) · Tembisa (1,096) · Delft (1,055) · Inanda (1,052)</li>
-      </ul>
+  <h3>Key Verified Figures — 2023/24 Annual (SAPS Official)</h3>
+  <ul>
+    <li><strong>Murder:</strong> 27,621 (rate: 44.9 per 100,000)</li>
+    <li><strong>Attempted Murder:</strong> 35,977 (rate: 58.4 per 100,000)</li>
+    <li><strong>Rape:</strong> 42,569 (rate: 69.1 per 100,000)</li>
+    <li><strong>Sexual Assault:</strong> 7,418</li>
+    <li><strong>Assault GBH:</strong> 229,735 (rate: 373.0 per 100,000)</li>
+    <li><strong>Common Assault:</strong> 184,003 (rate: 298.9 per 100,000)</li>
+    <li><strong>Robbery with Aggravating Circumstances:</strong> 147,245</li>
+    <li><strong>Carjacking:</strong> 22,735 (63 per day — 78% increase over past decade)</li>
+    <li><strong>Truck Hijacking:</strong> 1,976 (54.5% increase over past decade)</li>
+    <li><strong>Kidnapping:</strong> 17,061 (264% increase over past decade; 51% in Gauteng)</li>
+    <li><strong>Common Robbery:</strong> 47,057</li>
+    <li><strong>Malicious Damage to Property:</strong> ~120,400</li>
+    <li><strong>Residential Burglary:</strong> ~152,006 (10-year downward trend)</li>
+    <li><strong>Non-Residential Burglary:</strong> ~61,800</li>
+    <li><strong>Vehicle Theft:</strong> ~38,020</li>
+    <li><strong>Theft from Vehicle:</strong> ~88,300</li>
+    <li><strong>Commercial Crime:</strong> ~117,200 (rising rapidly)</li>
+    <li><strong>Drug-Related Crime:</strong> ~163,000</li>
+    <li><strong>Murder 2024/25 annual:</strong> 24,692 (−10.6% vs 2023/24)</li>
+  </ul>
+  <h3>Key Verified Figures — 2024/25 Q3 (Oct–Dec 2024, SAPS Quarterly)</h3>
+  <ul>
+    <li><strong>17-community-reported serious crimes:</strong> 411,600 (−5.0% YoY)</li>
+    <li><strong>Murder:</strong> 6,953 (−9.8% YoY)</li>
+    <li><strong>Attempted Murder:</strong> 7,666 (−3.3% YoY)</li>
+    <li><strong>Assault GBH:</strong> 54,337 (+1.5% YoY)</li>
+    <li><strong>Common Assault:</strong> 56,486 (+6.6% YoY)</li>
+    <li><strong>Robbery (aggravating):</strong> 35,030 (−13.1% YoY)</li>
+    <li><strong>Carjacking:</strong> 4,807 (−19.5% YoY)</li>
+    <li><strong>Residential Burglary:</strong> 35,754 (−12.3% YoY)</li>
+    <li><strong>Non-Residential Burglary:</strong> 12,412 (−19.0% YoY)</li>
+    <li><strong>Vehicle Theft:</strong> 7,791 (−18.3% YoY)</li>
+    <li><strong>Commercial Crime:</strong> 36,446 (+8.9% YoY)</li>
+    <li><strong>Drug-Related Crime:</strong> 49,015 (+13.3% YoY)</li>
+    <li><strong>Provincial contributions:</strong> GP 26.5%, WC 18.3%, KZN 16.9%, EC 10.2%</li>
+    <li><strong>Top station overall:</strong> Cape Town Central (3,207) · Durban Central (2,185) · Mitchells Plain (1,948)</li>
+    <li><strong>Top contact crime station:</strong> Mfuleni (1,151) · Tembisa (1,096) · Delft (1,055) · Inanda (1,052)</li>
+  </ul>
 
-      <h3>Community Safety Score Methodology</h3>
-      <p>The Community Safety Score (0–100) is a composite indicator generated per station using three weighted components:</p>
+  <h3>Community Safety Score Methodology</h3>
+  <p>The Community Safety Score (0–100) is a composite indicator generated per station using three weighted components:</p>
 
-      <table class="meth-table">
-        <thead><tr><th>Component</th><th>Weight</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr><td>Crime Volume Score</td><td>50%</td><td>Station's total crimes relative to national average for all 1,163 stations</td></tr>
-          <tr><td>Trend Direction Score</td><td>30%</td><td>5-year directional trajectory — improving scores earn higher points</td></tr>
-          <tr><td>Crime Mix Score</td><td>20%</td><td>Proportion of serious contact crimes (murder, robbery, assault) relative to total</td></tr>
-        </tbody>
-      </table>
+  <table class="meth-table">
+    <thead><tr><th>Component</th><th>Weight</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Crime Volume Score</td><td>50%</td><td>Station's total crimes relative to national average for all 1,163 stations</td></tr>
+      <tr><td>Trend Direction Score</td><td>30%</td><td>5-year directional trajectory — improving scores earn higher points</td></tr>
+      <tr><td>Crime Mix Score</td><td>20%</td><td>Proportion of serious contact crimes (murder, robbery, assault) relative to total</td></tr>
+    </tbody>
+  </table>
 
-      <p style="margin-top:12px;">A score of <strong>75–100</strong> indicates a relatively safe station profile (Green). <strong>40–74</strong> indicates moderate concern (Amber). <strong>0–39</strong> indicates elevated risk relative to national peers (Red).</p>
+  <p style="margin-top:12px;">A score of <strong>75–100</strong> indicates a relatively safe station profile (Green). <strong>40–74</strong> indicates moderate concern (Amber). <strong>0–39</strong> indicates elevated risk relative to national peers (Red).</p>
 
-      <h3>SAPS Crime Classification Note</h3>
-      <p>SAPS tracks 21 priority crimes grouped into: 17 community-reported serious crimes (contact, contact-related, property-related, other serious) and 4 crimes detected as a result of police action (drugs, DUI, illegal firearms, police-detected sexual offences). Commercial crime is a sub-category within Other Serious Crimes. This dashboard presents both groupings.</p>
+  <h3>SAPS Crime Classification Note</h3>
+  <p>SAPS tracks 21 priority crimes grouped into: 17 community-reported serious crimes (contact, contact-related, property-related, other serious) and 4 crimes detected as a result of police action (drugs, DUI, illegal firearms, police-detected sexual offences). Commercial crime is a sub-category within Other Serious Crimes. This dashboard presents both groupings.</p>
 
-      <h3>Limitations</h3>
-      <ul>
-        <li>Reported crime ≠ actual crime — dark figures (unreported crime) are substantial in South Africa</li>
-        <li>Station boundaries and names change over time, making multi-year comparisons imperfect</li>
-        <li>Some station-level annual totals are extrapolated from quarterly data, not sourced from station-level Excel files</li>
-        <li>Commercial crime data may underrepresent corporate fraud due to reporting patterns</li>
-        <li>Population estimates use Stats SA 2021 series mid-year data, per SAPS official methodology</li>
-      </ul>
+  <h3>Limitations</h3>
+  <ul>
+    <li>Reported crime ≠ actual crime — dark figures (unreported crime) are substantial in South Africa</li>
+    <li>Station boundaries and names change over time, making multi-year comparisons imperfect</li>
+    <li>Some station-level annual totals are extrapolated from quarterly data, not sourced from station-level Excel files</li>
+    <li>Commercial crime data may underrepresent corporate fraud due to reporting patterns</li>
+    <li>Population estimates use Stats SA 2021 series mid-year data, per SAPS official methodology</li>
+  </ul>
 
-      <h3>Data Integration Roadmap</h3>
-      <p>Future versions of this tool will integrate directly with SAPS published station-level Excel files (released alongside quarterly PDF presentations) and the DataFirst UCT cleaned historical SAPS dataset for robust multi-year station comparisons. If you are a SAPS data officer, journalist, or researcher interested in collaboration, please get in touch via <a href="https://businesshustle.co.za" target="_blank">businesshustle.co.za</a>.</p>
+  <h3>Data Integration Roadmap</h3>
+  <p>Future versions of this tool will integrate directly with SAPS published station-level Excel files (released alongside quarterly PDF presentations) and the DataFirst UCT cleaned historical SAPS dataset for robust multi-year station comparisons. If you are a SAPS data officer, journalist, or researcher interested in collaboration, please get in touch via <a href="https://businesshustle.co.za" target="_blank">businesshustle.co.za</a>.</p>
 
-      <h3>Key Source URLs</h3>
-      <ul>
-        <li>SAPS Crime Stats Portal: <strong>saps.gov.za/services/crimestats.php</strong></li>
-        <li>Stats SA Governance Survey: <strong>statssa.gov.za/?cat=26</strong></li>
-        <li>DataFirst (UCT cleaned data): <strong>datafirst.uct.ac.za</strong></li>
-        <li>PoliceData Online aggregator: <strong>policedata.online</strong></li>
-      </ul>
+  <h3>Key Source URLs</h3>
+  <ul>
+    <li>SAPS Crime Stats Portal: <strong>saps.gov.za/services/crimestats.php</strong></li>
+    <li>Stats SA Governance Survey: <strong>statssa.gov.za/?cat=26</strong></li>
+    <li>DataFirst (UCT cleaned data): <strong>datafirst.uct.ac.za</strong></li>
+    <li>PoliceData Online aggregator: <strong>policedata.online</strong></li>
+  </ul>
 
-      <h3>Built By</h3>
-      <p>This tool is built by <a href="https://businesshustle.co.za" target="_blank">Business Hustle</a> as part of its civic technology portfolio. Cape Town, South Africa.</p>
+  <h3>Built By</h3>
+  <p>This tool is built by <a href="https://businesshustle.co.za" target="_blank">Business Hustle</a> as part of its civic technology portfolio. Cape Town, South Africa.</p>
 
-    </div>
+</div>
+```
+
   </section>
 
 </main>
 
+<!-- SEO CONTENT BLOCK — visible to crawlers, screen readers; not intrusive to visual users -->
+
+<section aria-label="About PoliceData ZA" style="max-width:1280px;margin:0 auto;padding:0 24px 40px;border-top:1px solid var(--border);margin-top:0;">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;padding:32px 0;">
+    <div>
+      <h3 style="font-family:var(--serif);font-size:1rem;margin-bottom:8px;color:var(--text);">South Africa Crime Statistics 2024/25</h3>
+      <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6;">Real SAPS published crime data. Murder: 27,621 in 2023/24. Rape: 42,569. Carjacking: 22,735. Kidnapping: 17,061. Updated after every SAPS quarterly release.</p>
+    </div>
+    <div>
+      <h3 style="font-family:var(--serif);font-size:1rem;margin-bottom:8px;color:var(--text);">Search Police Stations</h3>
+      <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6;">Search any of South Africa's 1,163 police stations. Top crime stations: Cape Town Central, Durban Central, Mfuleni, Tembisa, Delft, Inanda, Mitchells Plain, Khayelitsha, Roodepoort, JHB Central.</p>
+    </div>
+    <div>
+      <h3 style="font-family:var(--serif);font-size:1rem;margin-bottom:8px;color:var(--text);">Provincial Crime Rankings</h3>
+      <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6;">Western Cape: 4,680 crimes per 100k. Gauteng: 3,950. Northern Cape: 3,820. KwaZulu-Natal: 3,220. Free State: 3,290. Eastern Cape: 3,410. Limpopo: 2,050.</p>
+    </div>
+    <div>
+      <h3 style="font-family:var(--serif);font-size:1rem;margin-bottom:8px;color:var(--text);">Free Crime Heat Map</h3>
+      <p style="font-size:0.82rem;color:var(--text-3);line-height:1.6;">Interactive crime heat map of South Africa. Station-level drill-down. Filter by province, crime type, and contact crimes. No login required. No paywall. Built on OpenStreetMap.</p>
+    </div>
+  </div>
+  <div style="font-size:0.78rem;color:var(--text-3);padding-top:16px;border-top:1px solid var(--border);">
+    <strong style="color:var(--text-2);">Data sources:</strong> SAPS Annual Crime Report 2023/24 · SAPS Q3 2024/25 Quarterly Presentation · Stats SA mid-year population estimates (2021 series) · policedata.online ·
+    <strong style="color:var(--text-2);">Coverage:</strong> Gauteng · Western Cape · KwaZulu-Natal · Eastern Cape · Limpopo · Mpumalanga · North West · Free State · Northern Cape ·
+    <strong style="color:var(--text-2);">Key stations:</strong> Nyanga · Inanda · Hillbrow · Umlazi · Khayelitsha · Mfuleni · Delft · Tembisa · Mitchells Plain · Roodepoort · Sandton · Fourways · Linden · Douglasdale · Brixton · Langlaagte
+  </div>
+</section>
+
 <!-- FOOTER -->
-<footer class="site-footer">
-  <p>Built by <a href="https://businesshustle.co.za" target="_blank">Business Hustle</a> · Cape Town · ZA &nbsp;|&nbsp; Data sourced from SAPS official publications — see <button onclick="switchPanel('about')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">About &amp; Methodology</button></p>
+
+<footer class="site-footer" itemscope itemtype="https://schema.org/WPFooter">
+  <p>
+    Built by <a href="https://businesshustle.co.za" target="_blank" rel="noopener" itemprop="author">Business Hustle</a> · Cape Town · ZA
+    &nbsp;|&nbsp;
+    Data sourced from <a href="https://www.saps.gov.za/services/crimestats.php" target="_blank" rel="noopener" style="color:var(--gold);">SAPS official publications</a>
+    &nbsp;|&nbsp;
+    <button onclick="switchPanel('about')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:inherit;text-decoration:underline;">About &amp; Methodology</button>
+  </p>
+  <p style="margin-top:6px;font-size:0.74rem;opacity:0.55;">
+    South Africa crime statistics · SAPS data 2024/25 · Police station crime rates · Free crime heat map · Community safety score
+  </p>
 </footer>
 
 <script>
@@ -2557,5 +2835,6 @@ function showMapStationCard(s) {
 panelRendered['overview'] = true;
 renderOverview();
 </script>
+
 </body>
-</html>/???
+</html>
